@@ -326,5 +326,6 @@ public class SesionInfante implements Serializable {
             JsfUtil.addErrorMessage("El código a eliminar "+codigoEliminar+ " no es válido");
         }
     }
+    
          
 }

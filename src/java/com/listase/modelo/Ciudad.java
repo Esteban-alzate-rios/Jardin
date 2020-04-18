@@ -20,6 +20,13 @@ public class Ciudad implements Serializable{
 public Ciudad() {
     } 
 
+    public Ciudad(String codigo, String nombre, Departamento departamento) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.departamento = departamento;
+    }
+
+
     public String getCodigo() {
         return codigo;
     }

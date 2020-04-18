@@ -15,31 +15,30 @@ public class Infante implements  Serializable{
     private String nombre; //null
     private short codigo; //0
     private byte edad; //0
-    private String genero;//null
-    
+    private boolean genero;//null
+    private String ciudadNacimiento; 
     public Infante() {
         this.edad=1;
     }    
-    
-    public Infante(String nombre, short codigo, byte edad,String genero) {
+
+    public Infante(String nombre, short codigo, byte edad, boolean genero, String ciudadNacimiento) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.edad = edad;
         this.genero = genero;
+        this.ciudadNacimiento = ciudadNacimiento;
+    }
+    
+   
+    
+    public String getCiudadNacimiento() {
+        return ciudadNacimiento;
     }
 
-    public Infante(String juanita, short s, byte b, boolean b0, String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setCiudadNacimiento(String ciudadNacimiento) {
+        this.ciudadNacimiento = ciudadNacimiento;
     }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
+    
     public String getNombre() {
         return nombre;
     }
@@ -69,9 +68,15 @@ public class Infante implements  Serializable{
        return this.nombre; 
     }
 
-    boolean isGenero() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isGenero() {
+        return genero;
     }
+
+    public void setGenero(boolean genero) {
+        this.genero = genero;
+    }
+
+    
     
     
     
