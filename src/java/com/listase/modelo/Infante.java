@@ -28,6 +28,10 @@ public class Infante implements  Serializable{
         this.genero = genero;
     }
 
+    public Infante(String juanita, short s, byte b, boolean b0, String nombre) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public String getGenero() {
         return genero;
     }
@@ -63,6 +67,10 @@ public class Infante implements  Serializable{
     @Override
     public String toString() {
        return this.nombre; 
+    }
+
+    boolean isGenero() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
