@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author esteban
+ * @author carloaiza
  */
 public class Departamento implements Serializable{
     private String codigo;
@@ -18,8 +18,7 @@ public class Departamento implements Serializable{
     public Departamento(String codigo, String nombre) {
         this.codigo = codigo;
         this.nombre = nombre;
-    
-}
+    }
 
     public String getCodigo() {
         return codigo;
@@ -36,4 +35,6 @@ public class Departamento implements Serializable{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
+    
 }

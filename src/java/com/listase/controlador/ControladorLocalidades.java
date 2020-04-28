@@ -10,11 +10,9 @@ import com.listase.modelo.Departamento;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 /**
  *
- * @author esteban
+ * @author carloaiza
  */
 public class ControladorLocalidades {
     private List<Ciudad> ciudades;

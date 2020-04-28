@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <p:growl id="grwlErrores"/>
+        <h:form id="frmCorredor">
+
+            <p:commandButton value="Volver" action="inicio" />
+            <p:panel header="Lista Doblemente Enlazada Corredor - Total Corredor #{sesionMotoGPDE.listaCorredor.contarNodos()}">
+                <p:panelGrid columns="2">
+                    <p:panel header="Datos Corredor">
+
+                        <p:panelGrid columns="2">
+                            <p:outputLabel for="txtNombre" value="Nombre"/>
+                            <p:inputText id="txtNombre" required="true" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"
+                                         value="#{sesionMotoGPDE.corredor.nombre}"   />
+                            <p:outputLabel for="spEdad" value="Edad"/>
+                            <p:spinner id="spEdad" required="true" min="1" max="7" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"
+                                       value="#{sesionMotoGPDE.corredor.edad}"/>
+                            <p:outputLabel value="Marca"/>
+                            <p:selectOneMenu value="#{sesionMotoGPDE.corredor.genero}"
+                                             disabled="#{sesionMotoGPDE.deshabilitarFormulario}">
+                                <f:selectItem itemLabel="Yamaha MT-9" itemValue="true"/>
+                                <f:selectItem itemLabel="kawasaki Versys" itemValue="false"/>
+                            </p:selectOneMenu>
+
+                            
+                            
+
+
+                            <p:outputLabel value="Al inicio"/>
+                            <p:selectOneMenu value="#{sesionMotoGPDE.alInicio}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}">
+                                <f:selectItem itemLabel="SI" itemValue="1"/>
+                                <f:selectItem itemLabel="NO" itemValue="0"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" update="frmCorredor,:grwlErrores"
+                                         action="#{sesionMotoGPDE.guardarCorredor()}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"/>
+
+                        <p:commandButton value="Nuevo" update="frmCorredor" action="#{sesionMotoGPDE.habilitarFormulario()}"
+                                         disabled="#{!sesionMotoGPDE.deshabilitarFormulario}"
+                                         />
+                        <p:commandButton value="Invertir"  update="frmCorredor,:grwlErrores"
+                                         action="#{sesionMotoGPDE.invertirLista()}"
+                                         />
+                        <p:panelGrid columns="4">
+                            <p:commandButton value="Primero" action="#{sesionMotoGPDE.irPrimero()}" 
+                                             update="frmCorredor"/>
+                            <p:commandButton value="Anterior" action="#{sesionMotoGPDE.irAnterior()}"
+                                             update="frmCorredor"/>
+                            <p:commandButton value="Siguiente" action="#{sesionMotoGPDE.irSiguiente()}"
+                                             update="frmCorredor"/>       
+                            <p:commandButton value="Último" action="#{sesionMotoGPDE.irUltimo()}" 
+                                             update="frmCorredor"/>                           
+
+                        </p:panelGrid>
+                        <p:outputLabel value="Código a eliminar: "/>
+                        <p:inputText value="#{sesionMotoGPDE.codigoEliminar}" maxlength="4" size="10"/>
+                        <p:commandButton value="Eliminar" action="#{sesionMotoGPDE.eliminarCorredor()}" 
+                                         update="frmCorredor,:grwlErrores"
+                                         />
+                    </p:panel>
+                    <p:panel header="Reportes">
+                        <p:outputLabel value="Promedio de Edad de los corredor: #{sesionMotoGPDE.listaCorredor.promediarEdades()}"/>
+                        <br/>
+                        <p:outputLabel value="#{sesionMotoGPDE.listaCorredor.obtenerListadoCorredor()}"/>
+                        <br/>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Cantidad Yamaha MT-9: "/>
+                            <p:outputLabel value="#{sesionMotoGPDE.listaCorredor.contarCorredorxGenero(true)}"/>               
+                            <p:outputLabel value="Cantidad kawasaki Versys: "/>
+                            <p:outputLabel value="#{sesionMotoGPDE.listaCorredor.contarCorredorxGenero(false)}"/>
+                        </h:panelGrid>
+                    </p:panel>
+
+
+                </p:panelGrid>
+
+                <p:panel header="Gráfico" id="pnlVista" style="width: 100%;">
+                    <p:commandButton value="#{sesionMotoGPDE.textoVista}" 
+                                     action="#{sesionMotoGPDE.cambiarVistaCorredor()}"
+                                     update="pnlVista"/>
+
+                    <p:dataTable rendered="#{sesionMotoGPDE.textoVista=='Gráfico'}"  value="#{session}" var="inf">
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Código"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.codigo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Nombre"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Edad"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.edad}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Marca"/>
+                            </f:facet>
+                            <p:outputLabel rendered="#{inf.genero}"  value="Yamaha MT-9"/>
+                            <p:outputLabel rendered="#{!inf.genero}"  value="kawasaki Versys"/>                                
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Ciudad nacimiento"/>
+                            </f:facet>
+                            <p:outputLabel value="#{corre.ciudadNacimiento}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:diagram id="diagrama" rendered="#{sesionMotoGPDE.textoVista=='Tabla'}" value="#{sesionMotoGPDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
+
+                    <p:remoteCommand name="elementClickRight" 
+                                     actionListener="#{sesionMotoGPDE.onClickRight()}" 
+                                     >
+                    </p:remoteCommand>
+
+                    <script>
+                        $(document).ready(function () {
+                            $('.ui-diagram > .ui-diagram-element').mousedown(function (correo) {
+                                if (correo.which === 3) {
+                                    elementClickRight([{
+                                            name: 'elementId',
+                                            value: correo.target.id
+                                        }]);
+                                }
+                            });
+                        });
+                    </script>
+                    
+                        <p:contextMenu id="mnuDiagrama" for="diagrama"
+                                   targetFilter=".ui-diagram-element"
+                                   >
+                        <p:menuitem value="Ver datos" 
+                                    action="#{sesionMotoGPDE.obtenerCorredorDiagrama()}" 
+                                    update="panelInfante"                                    
+                                    oncomplete="PF('dlgDatosInfante').show();" />
+                        <p:menuitem value="Eliminar"/>
+                        <p:menuitem value="Enviar al final" update="pnlVista"                                    
+                                    action="#{sesionMotoGPDE.enviarAlFinal()}"/>
+                        <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
+                                    action="#{sesionMotoGPDE.enviarAlInicio()}"                                    
+                                    />
+                        <p:menuitem value="Adelantar/Perder Posición"/>
+                    </p:contextMenu>
+
+                    <p:contextMenu id="mnuDiagrama" for="diagrama"
+                                   targetFilter=".ui-diagram-element"
+                                   >
+                        <p:menuitem value="Ver datos" 
+                                    action="#{sesionMotoGPDE.obtenerCorredorDiagrama()}" 
+                                    update="panelCorredor"                                    
+                                    oncomplete="PF('dlgDatosCorredor').show();" />
+                        <p:menuitem value="Eliminar" update="panerElimiminarCorredor"
+                                    action="#{sesionMotoGPDE.obtenerCorredorDiagrama()}"
+                                    oncomplete="PF('dlgDatosCorredor').show();"/>
+                        <p:menuitem value="Enviar al final" update="pnlVista"                                    
+                                    action="#{sesionMotoGPDE.enviarAlFinal()}"/>
+                        <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
+                                    action="#{sesionMotoGPDE.enviarAlInicio()}"                                    
+                                    />
+                        <p:menuitem value="Adelantar/Perder Posición"/>
+                    </p:contextMenu>
+                </p:panel>
+            </p:panel>
+
+            <p:dialog id="modalCorredor" header="Datos Corredor" widgetVar="dlgDatosCorredor" 
+                      modal="true" height="100">
+                <p:panel id="panelCorredor">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Código:" />
+                        <h:outputText value="#{sesionMotoGPDE.corredorDiagrama.codigo}" />
+                        <h:outputText value="Nombre:" />
+                        <h:outputText value="#{sesionMotoGPDE.corredorDiagrama.nombre}" />
+                        <h:outputText value="Marca:" />
+                        <h:outputText rendered="#{sesionMotoGPDE.corredorDiagrama.genero}" value="Yamaha MT-9" />
+                        <h:outputText rendered="#{!sesionMotoGPDE.corredorDiagrama.genero}" value="kawasaki Versys" />
+                    </h:panelGrid>
+
+                </p:panel>
+            </p:dialog> 
+            
+            
+            
+             <p:dialog id="modalEliminarCorredor" header="Eliminar Corredor" widgetVar="dlgEliminarCorredor" 
+                      modal="true" height="100">
+                <p:panel id="panelEliminarCorredor">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Código:" />
+                        <h:outputText value="#{sesionMotoGPDE.corredorDiagrama.codigo}" />
+                        <h:outputText value="Nombre:" />
+                        <h:outputText value="#{sesionMotoGPDE.corredorDiagrama.nombre}" />
+                        <h:outputText value="Género:" />
+                        <h:outputText rendered="#{sesionMotoGPDE.corredorDiagrama.genero}" value="Masculino" />
+                        <h:outputText rendered="#{!sesionMotoGPDE.corredorDiagrama.genero}" value="Femenino" />
+                    </h:panelGrid>
+                    <p:commandButton value="Aceptar" action="#{sesionMotoGPDE.EliminarCorredor()}"
+                                     oncomplete="PF('dlgDatosCorredor').hide();" update="pnlVista"/>
+                    <p:commandButton value="Cancelar" onclick="PF('dlgDatosCorredor').hide();"/>
+                </p:panel>
+            </p:dialog> 
+        </h:form>
+
+    </h:body>    
+</html>
+

@@ -5,58 +5,87 @@
  */
 package com.listase.motoGP;
 
+import java.io.Serializable;
+
 /**
  *
  * @author esteban
  */
-public class Corredor extends Tercero {
-    
-    private String usuario;
-    private String contraseña;
-    private boolean estado;
-    private Moto moto;
+public class Corredor implements Serializable{
+    private short codigo;
+    private String nombre;
+    private String genero;
+    private String estado;
+    private String cilindraje;
+    private String marca;
 
-    public Corredor(String usuario, String contraseña, boolean estado, Moto moto, String nombre, String apellido, boolean genero, String cedula, byte codigo, String descripcion) {
-        super(nombre, apellido, genero, cedula, codigo, descripcion);
-        this.usuario = usuario;
-        this.contraseña = contraseña;
+    public Corredor(short codigo, String nombre, String genero, String estado, String cilindraje, String marca) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.genero = genero;
         this.estado = estado;
-        this.moto = moto;
+        this.cilindraje = cilindraje;
+        this.marca = marca;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public short getCodigo() {
+        return codigo;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setCodigo(short codigo) {
+        this.codigo = codigo;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public boolean isEstado() {
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
-    public Moto getMoto() {
-        return moto;
+    public String getCilindraje() {
+        return cilindraje;
     }
 
-    public void setMoto(Moto moto) {
-        this.moto = moto;
+    public void setCilindraje(String cilindraje) {
+        this.cilindraje = cilindraje;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
     
-    
+       
+  @Override
+    public String toString() {
+       return this.nombre; 
+    }  
+
+    boolean isGenero() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
     
     

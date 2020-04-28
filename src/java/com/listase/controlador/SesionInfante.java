@@ -14,12 +14,15 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
 import org.primefaces.model.diagram.DiagramModel;
 import org.primefaces.model.diagram.Element;
+import org.primefaces.model.diagram.connector.FlowChartConnector;
 import org.primefaces.model.diagram.connector.StateMachineConnector;
 import org.primefaces.model.diagram.endpoint.BlankEndPoint;
 import org.primefaces.model.diagram.endpoint.EndPoint;
@@ -33,8 +36,7 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
  */
 @Named(value = "sesionInfante")
 @SessionScoped
-   
-   public class SesionInfante implements Serializable {
+public class SesionInfante implements Serializable {
     private ListaSE listaInfantes;
     private Infante infante;
     private String alInicio="1";

@@ -7,11 +7,10 @@ package com.listase.modelo;
 
 /**
  *
- * @author esteban
+ * @author carloaiza
  */
 public class NodoDE {
-    
-     private Infante dato;
+    private Infante dato;
     private NodoDE siguiente;
     private NodoDE anterior;
 
@@ -42,5 +41,7 @@ public class NodoDE {
     public void setAnterior(NodoDE anterior) {
         this.anterior = anterior;
     }
+    
+    
     
 }

@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.listase.motoGP;
+package com.listase.Excepciones;
 
 /**
  *
  * @author esteban
  */
-public class Equipo extends Parametrica{
+public class MotoGpExcepcion extends Exception{
 
-    public Equipo(byte codigo, String descripcion) {
-        super(codigo, descripcion);
+    public MotoGpExcepcion(String string) {
+        super(string);
     }
-    
-    
-    
+
+   
 }

@@ -12,10 +12,9 @@ import java.util.List;
 
 /**
  *
- * @author esteban
+ * @author carloaiza
  */
-public class ListaDE implements Serializable {
-    
+public class ListaDE implements Serializable{
     private NodoDE cabeza;
 
     public ListaDE() {
@@ -258,5 +257,6 @@ public class ListaDE implements Serializable {
         }
         throw new InfanteExcepcion("La lista de infantes está vacía");
     }
+    
     
 }

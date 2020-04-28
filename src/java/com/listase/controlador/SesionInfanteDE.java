@@ -10,6 +10,8 @@ import com.listase.modelo.Infante;
 import com.listase.modelo.ListaDE;
 import com.listase.modelo.NodoDE;
 import com.listase.utilidades.JsfUtil;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -27,11 +29,11 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
 
 /**
  *
- * @author esteban
+ * @author carloaiza
  */
+@Named(value = "sesionInfanteDE")
+@SessionScoped
 public class SesionInfanteDE implements Serializable {
-    
-    
     private ListaDE listaInfantes;
     private Infante infante;
     private String alInicio="1";

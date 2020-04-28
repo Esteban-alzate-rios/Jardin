@@ -9,23 +9,21 @@ import java.io.Serializable;
 
 /**
  *
- * @author esteban
+ * @author carloaiza
  */
 public class Ciudad implements Serializable{
     private String codigo;
     private String nombre;
     private Departamento departamento;
-    
-    
-public Ciudad() {
-    } 
 
+    public Ciudad() {
+    }    
+    
     public Ciudad(String codigo, String nombre, Departamento departamento) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.departamento = departamento;
     }
-
 
     public String getCodigo() {
         return codigo;
@@ -50,7 +48,6 @@ public Ciudad() {
     public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
     }
-    
     
     
 }
