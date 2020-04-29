@@ -71,7 +71,7 @@ public class SesionInfanteDE implements Serializable {
         listaInfantes = new ListaDE();        
         //LLenado de la bds
         listaInfantes.adicionarNodo(new Infante("Carlitos",(short) 1, (byte)2, true,
-                controlLocalidades.getCiudades().get(0).getNombre()));
+        controlLocalidades.getCiudades().get(0).getNombre()));
         listaInfantes.adicionarNodo(new Infante("Juanita",(short) 2, (byte)3, false,
         controlLocalidades.getCiudades().get(3).getNombre()));
         listaInfantes.adicionarNodo(new Infante("Martina",(short) 3, (byte)1,false,

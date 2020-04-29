@@ -5,15 +5,43 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+               <title>Facelet Title</title>
+        <style type="text/css">
+            .ui-diagram-element {   
+                width:8em; 
+                height:3em;     
+                line-height:3em;
+                text-align: center;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+                border-radius: 4px;
+                border: 1px solid transparent;
+                background-color: #98AFC7;
+                color: #ffffff;
+            }
+
+            .ui-diagram-success {
+                background-color: #9CB071;
+                color: #ffffff;
+                border-color: #7ab02c;
+            }
+
+            .ui-diagram-fail {
+                background-color: #C34A2C;
+                color: #ffffff;
+            }
+
+            .flow-label {
+                font-size: 24px;
+                font-weight: bold;
+                color: #816A51;
+            }
+        </style>
     </h:head>
     <h:body>
-
         <p:growl id="grwlErrores"/>
-        <h:form id="frmCorredor">
-
+        <h:form id="frmInfante">
             <p:commandButton value="Volver" action="inicio" />
-            <p:panel header="Lista Doblemente Enlazada Corredor - Total Corredor #{sesionMotoGPDE.listaCorredor.contarNodos()}">
+            <p:panel header="Lista Doblemente Enlazada MotoGP - Total Corredores #{sesionMotoGPDE.listaCorredor.contarNodos()}">
                 <p:panelGrid columns="2">
                     <p:panel header="Datos Corredor">
 
@@ -24,15 +52,34 @@
                             <p:outputLabel for="spEdad" value="Edad"/>
                             <p:spinner id="spEdad" required="true" min="1" max="7" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"
                                        value="#{sesionMotoGPDE.corredor.edad}"/>
-                            <p:outputLabel value="Marca"/>
+                            <p:outputLabel value="Género"/>
                             <p:selectOneMenu value="#{sesionMotoGPDE.corredor.genero}"
                                              disabled="#{sesionMotoGPDE.deshabilitarFormulario}">
-                                <f:selectItem itemLabel="Yamaha MT-9" itemValue="true"/>
-                                <f:selectItem itemLabel="kawasaki Versys" itemValue="false"/>
+                                <f:selectItem itemLabel="Niño" itemValue="true"/>
+                                <f:selectItem itemLabel="Niña" itemValue="false"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Marca"/>
+                            <p:selectOneMenu value="#{sesionMotoGPDE.corredor.marca}"
+                                             disabled="#{sesionMotoGPDE.deshabilitarFormulario}">
+                                <f:selectItem itemLabel="Pulsar RS200" itemValue="true"/>
+                                <f:selectItem itemLabel="Kawasaki Z 250" itemValue="false"/>
+                            </p:selectOneMenu>
+                            
+
+                            <p:outputLabel value="Departamento"/>
+                            <p:selectOneMenu value="#{sesionMotoGPDE.codigoDeptoSel}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}" >
+                                <f:selectItems value="#{sesionMotoGPDE.controlLocalidades.departamentos}" 
+                                               var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
+                                               />
+                                <p:ajax event="change" update="cmbCiudad" process="cmbCiudad" />
                             </p:selectOneMenu>
 
-                            
-                            
+                            <p:outputLabel value="Ciudad"/>
+                            <p:selectOneMenu id="cmbCiudad" value="#{sesionMotoGPDE.corredor.ciudadNacimiento}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"  >
+                                <f:selectItems value="#{sesionMotoGPDE.controlLocalidades.obtenerCiudadesxDepto(sesionMotoGPDE.codigoDeptoSel)}" 
+                                               var="ciudad" itemLabel="#{ciudad.nombre}" itemValue="#{ciudad.nombre}"
+                                               />
+                            </p:selectOneMenu>
 
 
                             <p:outputLabel value="Al inicio"/>
@@ -41,42 +88,42 @@
                                 <f:selectItem itemLabel="NO" itemValue="0"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:commandButton value="Guardar" update="frmCorredor,:grwlErrores"
-                                         action="#{sesionMotoGPDE.guardarCorredor()}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"/>
+                        <p:commandButton value="Guardar" update="frmInfante,:grwlErrores"
+                                         action="#{sesionMotoGPDE.guardarInfante()}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"/>
 
-                        <p:commandButton value="Nuevo" update="frmCorredor" action="#{sesionMotoGPDE.habilitarFormulario()}"
+                        <p:commandButton value="Nuevo" update="frmInfante" action="#{sesionMotoGPDE.habilitarFormulario()}"
                                          disabled="#{!sesionMotoGPDE.deshabilitarFormulario}"
                                          />
-                        <p:commandButton value="Invertir"  update="frmCorredor,:grwlErrores"
+                        <p:commandButton value="Invertir"  update="frmInfante,:grwlErrores"
                                          action="#{sesionMotoGPDE.invertirLista()}"
                                          />
                         <p:panelGrid columns="4">
                             <p:commandButton value="Primero" action="#{sesionMotoGPDE.irPrimero()}" 
-                                             update="frmCorredor"/>
+                                             update="frmInfante"/>
                             <p:commandButton value="Anterior" action="#{sesionMotoGPDE.irAnterior()}"
-                                             update="frmCorredor"/>
+                                             update="frmInfante"/>
                             <p:commandButton value="Siguiente" action="#{sesionMotoGPDE.irSiguiente()}"
-                                             update="frmCorredor"/>       
+                                             update="frmInfante"/>       
                             <p:commandButton value="Último" action="#{sesionMotoGPDE.irUltimo()}" 
-                                             update="frmCorredor"/>                           
+                                             update="frmInfante"/>                           
 
                         </p:panelGrid>
                         <p:outputLabel value="Código a eliminar: "/>
                         <p:inputText value="#{sesionMotoGPDE.codigoEliminar}" maxlength="4" size="10"/>
-                        <p:commandButton value="Eliminar" action="#{sesionMotoGPDE.eliminarCorredor()}" 
-                                         update="frmCorredor,:grwlErrores"
+                        <p:commandButton value="Eliminar" action="#{sesionMotoGPDE.eliminarInfante()}" 
+                                         update="frmInfante,:grwlErrores"
                                          />
                     </p:panel>
                     <p:panel header="Reportes">
-                        <p:outputLabel value="Promedio de Edad de los corredor: #{sesionMotoGPDE.listaCorredor.promediarEdades()}"/>
+                        <p:outputLabel value="Promedio de Edad de los corredors: #{sesionMotoGPDE.listaInfantes.promediarEdades()}"/>
                         <br/>
-                        <p:outputLabel value="#{sesionMotoGPDE.listaCorredor.obtenerListadoCorredor()}"/>
+                        <p:outputLabel value=""/>
                         <br/>
                         <h:panelGrid columns="2">
-                            <p:outputLabel value="Cantidad Yamaha MT-9: "/>
-                            <p:outputLabel value="#{sesionMotoGPDE.listaCorredor.contarCorredorxGenero(true)}"/>               
-                            <p:outputLabel value="Cantidad kawasaki Versys: "/>
-                            <p:outputLabel value="#{sesionMotoGPDE.listaCorredor.contarCorredorxGenero(false)}"/>
+                            <p:outputLabel value="Cantidad Pulsar RS200: "/>
+                            <p:outputLabel value="#{sesionMotoGPDE.listaInfantes.contarInfantesxGenero(true)}"/>               
+                            <p:outputLabel value="Cantidad Kawasaki Z 250: "/>
+                            <p:outputLabel value="#{sesionMotoGPDE.listaInfantes.contarInfantesxGenero(false)}"/>
                         </h:panelGrid>
                     </p:panel>
 
@@ -85,10 +132,10 @@
 
                 <p:panel header="Gráfico" id="pnlVista" style="width: 100%;">
                     <p:commandButton value="#{sesionMotoGPDE.textoVista}" 
-                                     action="#{sesionMotoGPDE.cambiarVistaCorredor()}"
+                                     action="#{sesionMotoGPDE.cambiarVistaInfantes()}"
                                      update="pnlVista"/>
 
-                    <p:dataTable rendered="#{sesionMotoGPDE.textoVista=='Gráfico'}"  value="#{session}" var="inf">
+                    <p:dataTable rendered="#{sesionMotoGPDE.textoVista=='Gráfico'}"  value="#{sesionMotoGPDE.listadoInfantes}" var="inf">
                         <p:column>
                             <f:facet name="header">
                                 <p:outputLabel value="Código"/>
@@ -109,16 +156,23 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
+                                <p:outputLabel value="Género"/>
+                            </f:facet>
+                            <p:outputLabel rendered="#{inf.genero}"  value="Masculino"/>
+                            <p:outputLabel rendered="#{!inf.genero}"  value="Femenino"/>                                
+                        </p:column>
+                          <p:column>
+                            <f:facet name="header">
                                 <p:outputLabel value="Marca"/>
                             </f:facet>
-                            <p:outputLabel rendered="#{inf.genero}"  value="Yamaha MT-9"/>
-                            <p:outputLabel rendered="#{!inf.genero}"  value="kawasaki Versys"/>                                
+                            <p:outputLabel rendered="#{inf.marca}"  value="Pulsar RS200"/>
+                            <p:outputLabel rendered="#{!inf.marca}"  value="Kawasaki Z 250"/>                                
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <p:outputLabel value="Ciudad nacimiento"/>
                             </f:facet>
-                            <p:outputLabel value="#{corre.ciudadNacimiento}"/>
+                            <p:outputLabel value="#{inf.ciudadNacimiento}"/>
                         </p:column>
                     </p:dataTable>
 
@@ -131,22 +185,22 @@
 
                     <script>
                         $(document).ready(function () {
-                            $('.ui-diagram > .ui-diagram-element').mousedown(function (correo) {
-                                if (correo.which === 3) {
+                            $('.ui-diagram > .ui-diagram-element').mousedown(function (info) {
+                                if (info.which === 3) {
                                     elementClickRight([{
                                             name: 'elementId',
-                                            value: correo.target.id
+                                            value: info.target.id
                                         }]);
                                 }
                             });
                         });
                     </script>
-                    
-                        <p:contextMenu id="mnuDiagrama" for="diagrama"
+
+                    <p:contextMenu id="mnuDiagrama" for="diagrama"
                                    targetFilter=".ui-diagram-element"
                                    >
                         <p:menuitem value="Ver datos" 
-                                    action="#{sesionMotoGPDE.obtenerCorredorDiagrama()}" 
+                                    action="#{sesionMotoGPDE.obtenerInfanteDiagrama()}" 
                                     update="panelInfante"                                    
                                     oncomplete="PF('dlgDatosInfante').show();" />
                         <p:menuitem value="Eliminar"/>
@@ -157,48 +211,12 @@
                                     />
                         <p:menuitem value="Adelantar/Perder Posición"/>
                     </p:contextMenu>
-
-                    <p:contextMenu id="mnuDiagrama" for="diagrama"
-                                   targetFilter=".ui-diagram-element"
-                                   >
-                        <p:menuitem value="Ver datos" 
-                                    action="#{sesionMotoGPDE.obtenerCorredorDiagrama()}" 
-                                    update="panelCorredor"                                    
-                                    oncomplete="PF('dlgDatosCorredor').show();" />
-                        <p:menuitem value="Eliminar" update="panerElimiminarCorredor"
-                                    action="#{sesionMotoGPDE.obtenerCorredorDiagrama()}"
-                                    oncomplete="PF('dlgDatosCorredor').show();"/>
-                        <p:menuitem value="Enviar al final" update="pnlVista"                                    
-                                    action="#{sesionMotoGPDE.enviarAlFinal()}"/>
-                        <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
-                                    action="#{sesionMotoGPDE.enviarAlInicio()}"                                    
-                                    />
-                        <p:menuitem value="Adelantar/Perder Posición"/>
-                    </p:contextMenu>
                 </p:panel>
             </p:panel>
-
-            <p:dialog id="modalCorredor" header="Datos Corredor" widgetVar="dlgDatosCorredor" 
+            
+            <p:dialog id="modalInfante" header="Datos Infante" widgetVar="dlgDatosInfante" 
                       modal="true" height="100">
-                <p:panel id="panelCorredor">
-                    <h:panelGrid columns="2">
-                        <h:outputText value="Código:" />
-                        <h:outputText value="#{sesionMotoGPDE.corredorDiagrama.codigo}" />
-                        <h:outputText value="Nombre:" />
-                        <h:outputText value="#{sesionMotoGPDE.corredorDiagrama.nombre}" />
-                        <h:outputText value="Marca:" />
-                        <h:outputText rendered="#{sesionMotoGPDE.corredorDiagrama.genero}" value="Yamaha MT-9" />
-                        <h:outputText rendered="#{!sesionMotoGPDE.corredorDiagrama.genero}" value="kawasaki Versys" />
-                    </h:panelGrid>
-
-                </p:panel>
-            </p:dialog> 
-            
-            
-            
-             <p:dialog id="modalEliminarCorredor" header="Eliminar Corredor" widgetVar="dlgEliminarCorredor" 
-                      modal="true" height="100">
-                <p:panel id="panelEliminarCorredor">
+                <p:panel id="panelInfante">
                     <h:panelGrid columns="2">
                         <h:outputText value="Código:" />
                         <h:outputText value="#{sesionMotoGPDE.corredorDiagrama.codigo}" />
@@ -208,9 +226,7 @@
                         <h:outputText rendered="#{sesionMotoGPDE.corredorDiagrama.genero}" value="Masculino" />
                         <h:outputText rendered="#{!sesionMotoGPDE.corredorDiagrama.genero}" value="Femenino" />
                     </h:panelGrid>
-                    <p:commandButton value="Aceptar" action="#{sesionMotoGPDE.EliminarCorredor()}"
-                                     oncomplete="PF('dlgDatosCorredor').hide();" update="pnlVista"/>
-                    <p:commandButton value="Cancelar" onclick="PF('dlgDatosCorredor').hide();"/>
+                    
                 </p:panel>
             </p:dialog> 
         </h:form>

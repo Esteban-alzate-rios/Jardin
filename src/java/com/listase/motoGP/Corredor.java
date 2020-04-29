@@ -14,18 +14,22 @@ import java.io.Serializable;
 public class Corredor implements Serializable{
     private short codigo;
     private String nombre;
-    private String genero;
-    private String estado;
+    private byte edad;
+    private boolean genero;
+    private String ciudadNacimiento;
+   
+    
+   /* 
     private String cilindraje;
     private String marca;
+ */   
 
-    public Corredor(short codigo, String nombre, String genero, String estado, String cilindraje, String marca) {
+    public Corredor(short codigo, String nombre, byte edad, boolean genero, String ciudadNacimiento) {
         this.codigo = codigo;
         this.nombre = nombre;
+        this.edad = edad;
         this.genero = genero;
-        this.estado = estado;
-        this.cilindraje = cilindraje;
-        this.marca = marca;
+        this.ciudadNacimiento = ciudadNacimiento;
     }
 
     public short getCodigo() {
@@ -44,50 +48,37 @@ public class Corredor implements Serializable{
         this.nombre = nombre;
     }
 
-    public String getGenero() {
+    public byte getEdad() {
+        return edad;
+    }
+
+    public void setEdad(byte edad) {
+        this.edad = edad;
+    }
+
+    public boolean isGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(boolean genero) {
         this.genero = genero;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getCiudadNacimiento() {
+        return ciudadNacimiento;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setCiudadNacimiento(String ciudadNacimiento) {
+        this.ciudadNacimiento = ciudadNacimiento;
     }
 
-    public String getCilindraje() {
-        return cilindraje;
+    public Corredor() {
     }
 
-    public void setCilindraje(String cilindraje) {
-        this.cilindraje = cilindraje;
-    }
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-    
-       
   @Override
     public String toString() {
        return this.nombre; 
     }  
-
-    boolean isGenero() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    
-    
     
 }

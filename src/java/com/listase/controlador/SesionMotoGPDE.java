@@ -13,7 +13,9 @@ import com.listase.utilidades.JsfUtil;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
 import org.primefaces.model.diagram.Element;
@@ -27,7 +29,10 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
 /**
  *
  * @author esteban
- */
+ */ 
+@Named(value = "sesionMotoGPDE")
+@SessionScoped
+
 public class SesionMotoGPDE implements Serializable {
     
     private ListaDEGP listaCorredor;
@@ -48,7 +53,8 @@ public class SesionMotoGPDE implements Serializable {
     private short corredorSeleccionado;
     
     private Corredor corredorDiagrama;
-
+    
+    private ControladorLocalidadesMotoGP controlLocalidades;
    
     
     public SesionMotoGPDE() {        
@@ -57,15 +63,28 @@ public class SesionMotoGPDE implements Serializable {
     @PostConstruct
     private void inicializar()
     {
+        controlLocalidades = new ControladorLocalidadesMotoGP();
+        codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
         listaCorredor = new ListaDEGP();        
         //LLenado de la bds
-        listaCorredor.adicionarNodoGP(new Corredor(codigoEliminar, alInicio, alInicio, alInicio, alInicio, alInicio));
+        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Agrango", (byte)18, true,));
         ayudante = listaCorredor.getCabeza();
-        corredor = ayudante.getDato();     
+        corredor = ayudante.getDato();
+        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Esteban Rodriguez", (byte)18, true,));
+        ayudante = listaCorredor.getCabeza();
+        corredor = ayudante.getDato();
         //Me llena el objeto List para la tabla
         listadoCorredor= listaCorredor.obtenerListaCorredors();
         pintarLista();
    }
+
+    public ControladorLocalidadesMotoGP getControlLocalidades() {
+        return controlLocalidades;
+    }
+
+    public void setControlLocalidades(ControladorLocalidadesMotoGP controlLocalidades) {
+        this.controlLocalidades = controlLocalidades;
+    }
 
     public ListaDEGP getListaCorredor() {
         return listaCorredor;
@@ -114,15 +133,6 @@ public class SesionMotoGPDE implements Serializable {
     public void setListadoCorredor(List listadoCorredor) {
         this.listadoCorredor = listadoCorredor;
     }
-
-    public DefaultDiagramModel getModel() {
-        return model;
-    }
-
-    public void setModel(DefaultDiagramModel model) {
-        this.model = model;
-    }
-
     public short getCodigoEliminar() {
         return codigoEliminar;
     }
@@ -243,7 +253,7 @@ public class SesionMotoGPDE implements Serializable {
         }
     }
     
-    public void cambiarVistaCorredores()
+    public void cambiarVistaCorredor()
     {
         if(textoVista.compareTo("Tabla")==0)
         {
