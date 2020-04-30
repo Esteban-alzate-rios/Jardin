@@ -19,11 +19,6 @@ public class Corredor implements Serializable{
     private String ciudadNacimiento;
    
     
-   /* 
-    private String cilindraje;
-    private String marca;
- */   
-
     public Corredor(short codigo, String nombre, byte edad, boolean genero, String ciudadNacimiento) {
         this.codigo = codigo;
         this.nombre = nombre;
@@ -74,9 +69,7 @@ public class Corredor implements Serializable{
 
     public Corredor() {
     }
-
-
-  @Override
+ @Override
     public String toString() {
        return this.nombre; 
     }  

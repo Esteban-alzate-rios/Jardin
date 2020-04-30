@@ -12,7 +12,7 @@ package com.listase.excepciones;
 public class InfanteExcepcion extends Exception
 {
     public InfanteExcepcion (String string){
-        
+        super(string);
     }
   
 }

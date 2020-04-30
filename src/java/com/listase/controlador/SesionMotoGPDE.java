@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
+import org.primefaces.model.diagram.DiagramModel;
 import org.primefaces.model.diagram.Element;
 import org.primefaces.model.diagram.connector.StateMachineConnector;
 import org.primefaces.model.diagram.endpoint.BlankEndPoint;
@@ -67,10 +68,8 @@ public class SesionMotoGPDE implements Serializable {
         codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
         listaCorredor = new ListaDEGP();        
         //LLenado de la bds
-        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Agrango", (byte)18, true,));
-        ayudante = listaCorredor.getCabeza();
-        corredor = ayudante.getDato();
-        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Esteban Rodriguez", (byte)18, true,));
+        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Agrango", (byte)18, true, controlLocalidades.getCiudades().get(0).getNombre()));
+        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Esteban Rodriguez", (byte)18, true, controlLocalidades.getCiudades().get(1).getNombre()));
         ayudante = listaCorredor.getCabeza();
         corredor = ayudante.getDato();
         //Me llena el objeto List para la tabla
@@ -164,9 +163,12 @@ public class SesionMotoGPDE implements Serializable {
     public void setCorredorDiagrama(Corredor corredorDiagrama) {
         this.corredorDiagrama = corredorDiagrama;
     }
-
     
-     private Connection createConnection(EndPoint from, EndPoint to, String label) {
+      public DiagramModel getModel() {
+        return model;
+    }
+     
+    private Connection createConnection(EndPoint from, EndPoint to, String label) {
         Connection conn = new Connection(from, to);
         conn.getOverlays().add(new ArrowOverlay(20, 20, 1, 1));
          
@@ -176,8 +178,8 @@ public class SesionMotoGPDE implements Serializable {
          
         return conn;
     }
-
     
+   
     
     public void guardarCorredor()
     {
@@ -202,7 +204,7 @@ public class SesionMotoGPDE implements Serializable {
     public void habilitarFormulario()
     {
         deshabilitarFormulario=false;
-        corredor = new Corredor(codigoEliminar, alInicio, alInicio, alInicio, alInicio, alInicio);
+        corredor = new Corredor();
     }
     
     public void irAnterior()
@@ -234,7 +236,7 @@ public class SesionMotoGPDE implements Serializable {
         }
         else
         {
-            corredor = new Corredor(codigoEliminar, alInicio, alInicio, alInicio, alInicio, alInicio);
+            corredor = new Corredor();
         }
         listadoCorredor = listaCorredor.obtenerListaCorredors();
         pintarLista();
