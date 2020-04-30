@@ -57,7 +57,7 @@ public class ControladorUsuarios{
         usuarios.add(new Usuario("uaterios@gmail.com","123456","Esteban Alzate",
         tiposUsuario.get(0)));
         
-        usuarios.add(new Usuario("consulta@gmail.com","","Consulta Consulta",
+        usuarios.add(new Usuario("consulta@gmail.com","654321","Consulta Consulta",
         tiposUsuario.get(1)));
 
     }

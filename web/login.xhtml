@@ -8,15 +8,21 @@
     </h:head>
     <p:growl id="grwlErrores"/>
     <h:body>
+        <h:form>
         <p:panelGrid id="pnlLogin"/>
         <p:panelGrid columns="2">
             
             <p:outputLabel for="txtCorreo" value="Correo:"/>
-            <p:inputText id="txtCorreo" required="true"/>
+            <p:inputText id="txtCorreo" required="true"
+                         value="#{loginBean.correo}"/>
             <p:outputLabel for="txtContraseña" value="Contraseña:"/>
-            <p:inputText id="txtContraseña" required="true"/>
+            <p:password id="txtContraseña" required="true"
+                         value="#{loginBean.contrasenia}"/>
         </p:panelGrid>
-        <p:commandButton value="Ingresar" update=":grwlErrores, pnlLogin"/>
+        <p:commandButton value="Ingresar"
+                         action="#{loginBean.ingresar()}"
+                         update=":grwlErrores, pnlLogin"/>
+        </h:form>
     </h:body>
 </html>
 

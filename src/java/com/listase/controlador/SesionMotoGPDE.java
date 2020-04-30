@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import loginjsfmodelo.Usuario;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
 import org.primefaces.model.diagram.DiagramModel;
@@ -34,8 +35,13 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
 @Named(value = "sesionMotoGPDE")
 @SessionScoped
 
+
+
 public class SesionMotoGPDE implements Serializable {
+   
     
+    private Usuario usuarioAuntenticado;
+           
     private ListaDEGP listaCorredor;
     private Corredor corredor;
     private String alInicio="1";
@@ -77,6 +83,15 @@ public class SesionMotoGPDE implements Serializable {
         pintarLista();
    }
 
+    public Usuario getUsuarioAuntenticado() {
+        return usuarioAuntenticado;
+    }
+
+    public void setUsuarioAuntenticado(Usuario usuarioAuntenticado) {
+        this.usuarioAuntenticado = usuarioAuntenticado;
+    }
+ 
+    
     public ControladorLocalidadesMotoGP getControlLocalidades() {
         return controlLocalidades;
     }
