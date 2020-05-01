@@ -78,7 +78,7 @@ public class SesionInfante implements Serializable {
         controlLocalidades.getCiudades().get(3).getNombre()));
         listaInfantes.adicionarNodo(new Infante("Martina",(short) 3, (byte)1,false,
         controlLocalidades.getCiudades().get(1).getNombre()));
-        listaInfantes.adicionarNodoAlInicio(new Infante("Mariana",(short) 4, (byte)5,false,
+        listaInfantes.adicionarNodoAlInicio(new Infante("Diana",(short) 4, (byte)5,false,
         controlLocalidades.getCiudades().get(2).getNombre()));
         ayudante = listaInfantes.getCabeza();
         infante = ayudante.getDato();     
