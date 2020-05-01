@@ -22,7 +22,6 @@ import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
 import org.primefaces.model.diagram.DiagramModel;
 import org.primefaces.model.diagram.Element;
-import org.primefaces.model.diagram.connector.FlowChartConnector;
 import org.primefaces.model.diagram.connector.StateMachineConnector;
 import org.primefaces.model.diagram.endpoint.BlankEndPoint;
 import org.primefaces.model.diagram.endpoint.EndPoint;
@@ -368,6 +367,19 @@ public class SesionInfante implements Serializable {
         }
     }
     
+    public void eliminarInfanteDiagrama()
+    {
+        
+        try {
+            listaInfantes.eliminarInfante(infanteSeleccionado);
+            irPrimero();
+        } catch (InfanteExcepcion ex) {
+            Logger.getLogger(SesionInfante.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+        
+        
+    }
     
     public void obtenerInfanteDiagrama()
     {

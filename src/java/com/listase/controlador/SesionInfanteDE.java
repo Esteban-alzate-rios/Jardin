@@ -14,6 +14,8 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.diagram.Connection;
@@ -390,6 +392,22 @@ public class SesionInfanteDE implements Serializable {
         } catch (InfanteExcepcion ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
+    }
+        
+
+        
+    public void eliminarInfanteDiagrama()
+    {
+        
+        try {
+            listaInfantes.eliminarInfante(infanteSeleccionado);
+            irPrimero();
+        } catch (InfanteExcepcion ex) {
+            Logger.getLogger(SesionInfante.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+        
+        
     }
     
     public void enviarAlFinal()

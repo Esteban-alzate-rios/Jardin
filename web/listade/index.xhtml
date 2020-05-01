@@ -188,7 +188,9 @@
                                     action="#{sesionInfanteDE.obtenerInfanteDiagrama()}" 
                                     update="panelInfante"                                    
                                     oncomplete="PF('dlgDatosInfante').show();" />
-                        <p:menuitem value="Eliminar"/>
+                        <p:menuitem value="Eliminar" update="panelEliminar"
+                                    action="#{sesionInfanteDE.obtenerInfanteDiagrama()}"
+                                    oncomplete="PF('dlgEliminar').show();"/>
                         <p:menuitem value="Enviar al final" update="pnlVista"                                    
                                     action="#{sesionInfanteDE.enviarAlFinal()}"/>
                         <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
@@ -211,7 +213,27 @@
                         <h:outputText rendered="#{sesionInfanteDE.infanteDiagrama.genero}" value="Masculino" />
                         <h:outputText rendered="#{!sesionInfanteDE.infanteDiagrama.genero}" value="Femenino" />
                     </h:panelGrid>
+                </p:panel>
+                </p:dialog>
                     
+                    
+            <p:dialog id="modalEliminar" header="Dato a Eliminar" widgetVar="dlgEliminar" 
+                      modal="true" height="100">
+                <p:panel id="panelEliminar">
+                    
+                    <h:panelGrid columns="1">
+                        <h:outputText value="Confirme si desea eliminar el Infante"/>
+                    </h:panelGrid>
+                    
+                    
+                    <p:commandButton value="Aceptar" action="#{sesionInfanteDE.eliminarInfanteDiagrama()}"
+                                       oncomplete="PF('dlgEliminar').hide();"
+                                       update="pnlVista"/>
+                        
+                        <p:commandButton value="Cancelar" 
+                                       onclick="PF('dlgEliminar').hide();"
+                                       update="pnlVista"/>
+                          
                 </p:panel>
             </p:dialog> 
         </h:form>

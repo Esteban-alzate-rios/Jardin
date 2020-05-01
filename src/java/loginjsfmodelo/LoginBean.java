@@ -6,19 +6,22 @@
 package loginjsfmodelo;
 
 import com.listase.controlador.ControladorUsuarios;
+import com.listase.controlador.SesionLogin;
 import com.listase.utilidades.JsfUtil;
+import java.io.Serializable;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
-import static sun.security.jgss.GSSUtil.login;
+import javax.enterprise.context.SessionScoped;
+
+
 
 
 /**
  *
  * @author esteban
  */
-@Named(value = "login")
-@Dependent
-public class LoginBean {
+@Named(value = "loginBean")
+@SessionScoped
+public class LoginBean implements Serializable{
         
         private String correo;
         private String contrasenia;
@@ -52,11 +55,12 @@ public class LoginBean {
     {
        if(usuarioEncontrado.getContrasenia().equals(contrasenia))
        {
-        Sesionloginlogin sesion=JsfUtil.getManagedBean(login);
-        sesion.setUsuarioAutenticado(usuarioEncontrado);
-           return "login";
+   /*     SesionLogin sesion=(SesionLogin) JsfUtil.getManagedBean("SesionLogin");
+        sesion.setUsauarioAtenticado(usuarioEncontrado);
+       */    
+           return "inicioListas";
        }
-    
+   
         JsfUtil.addErrorMessage("Los datos ingresados NO existen");
     }    
     return null;

@@ -36,6 +36,7 @@
                 color: #816A51;
             }
         </style>
+        
     </h:head>
     <h:body>
         <p:growl id="grwlErrores"/>
@@ -187,7 +188,10 @@
                                     action="#{sesionInfante.obtenerInfanteDiagrama()}" 
                                     update="panelInfante"                                    
                                     oncomplete="PF('dlgDatosInfante').show();" />
-                        <p:menuitem value="Eliminar"/>
+                        <p:menuitem value="Eliminar" update="panelEliminar"
+                                    action="#{sesionInfante.obtenerInfanteDiagrama()}"
+                                    oncomplete="PF('dlgEliminar').show();"/>
+
                         <p:menuitem value="Enviar al final" update="pnlVista"                                    
                                     action="#{sesionInfante.enviarAlFinal()}"/>
                         <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
@@ -197,7 +201,7 @@
                     </p:contextMenu>
                 </p:panel>
             </p:panel>
-            
+
             <p:dialog id="modalInfante" header="Datos Infante" widgetVar="dlgDatosInfante" 
                       modal="true" height="100">
                 <p:panel id="panelInfante">
@@ -210,9 +214,31 @@
                         <h:outputText rendered="#{sesionInfante.infanteDiagrama.genero}" value="Masculino" />
                         <h:outputText rendered="#{!sesionInfante.infanteDiagrama.genero}" value="Femenino" />
                     </h:panelGrid>
-                    
+
                 </p:panel>
             </p:dialog> 
+
+            <p:dialog id="modalEliminar" header="Dato a Eliminar" widgetVar="dlgEliminar" 
+                      modal="true" height="100">
+                <p:panel id="panelEliminar">
+                    <h:panelGrid columns="1">
+                        <h:outputText value="Confirme si desea eliminar el Infante"/>
+                    </h:panelGrid>
+                    
+                    
+                        <p:commandButton value="Aceptar" action="#{sesionInfante.eliminarInfanteDiagrama()}"
+                                       oncomplete="PF('dlgEliminar').hide();"
+                                       update="pnlVista"/>
+                        
+                        <p:commandButton value="Cancelar" 
+                                       onclick="PF('dlgEliminar').hide();"
+                                       update="pnlVista"/>
+                        
+                    
+
+                </p:panel>
+            </p:dialog> 
+
         </h:form>
 
     </h:body>
