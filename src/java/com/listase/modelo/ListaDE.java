@@ -64,9 +64,41 @@ public class ListaDE implements Serializable{
         }
     }
     
+   public void adicionarNodoPosicion(int posicion, Infante dato) throws InfanteExcepcion
+   {
+       if (cabeza != null)
+       {
+         if(posicion ==1)
+         {
+             adicionarNodoAlInicio(dato);
+         }
+         else
+         {    
+           int cont =1;  
+          NodoDE temp = cabeza;
+          while(temp !=null)
+          {
+                    if ((posicion - 1) == cont) {
+                        NodoDE nodoInsertar = new NodoDE(dato);
+                        nodoInsertar.setSiguiente(temp.getSiguiente());
+                        temp.setSiguiente(nodoInsertar);
+                        if(nodoInsertar.getSiguiente()!=null)
+                            nodoInsertar.getSiguiente().setAnterior(nodoInsertar);
+                        nodoInsertar.setAnterior(temp);
+                    return;
+                 }
+                temp = temp.getSiguiente();
+                 cont++;
+          }
+       }
+       throw new InfanteExcepcion(("La lista esta vacia "));
+   }
+       
+   }
+       
        public short contarNodos()
-    {
-        if(cabeza ==null)
+       {
+           if(cabeza ==null)
         {
             return 0;
         }
@@ -258,5 +290,48 @@ public class ListaDE implements Serializable{
         throw new InfanteExcepcion("La lista de infantes está vacía");
     }
     
+    public Infante obtenerInfanteMenorEdad () throws InfanteExcepcion
+    {
+        if(cabeza !=null)
+        {
+            Infante menor = cabeza.getDato();
+            NodoDE temp = cabeza;
+            while(temp != null)
+            {
+                if(temp.getDato().getEdad()< menor.getEdad() )
+                {
+                    menor = temp.getDato();
+                }
+                temp = temp.getSiguiente();
+            }
+           return menor;
+            
+        }
+    throw new InfanteExcepcion("La lista de infantes está vacía");
+
+    }
     
-}
+    
+    public int obtenerPosicionInfante(short codigo ) throws InfanteExcepcion
+    {
+        if (cabeza !=null)
+        {
+          int cont =1;  
+          NodoDE temp = cabeza;
+          while(temp !=null)
+          {
+                 if(temp.getDato().getCodigo()== codigo)
+                 {
+                     return cont;
+                 }
+                 temp.getSiguiente();
+                 cont++;
+          }
+          throw new InfanteExcepcion("El codigo ingresado no exite");
+        }
+        throw new InfanteExcepcion("La lista de infantes está vacía");
+    }
+    
+    
+} 
+

@@ -34,9 +34,6 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
  */ 
 @Named(value = "sesionMotoGPDE")
 @SessionScoped
-
-
-
 public class SesionMotoGPDE implements Serializable {
    
     

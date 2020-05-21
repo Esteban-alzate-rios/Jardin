@@ -57,6 +57,12 @@ public class SesionInfanteDE implements Serializable {
     
     private Infante infanteDiagrama;
     
+    private int posicionInfante;
+    
+    private String opcionElegida="1";
+    
+    private int numeroPosiciones=1;
+    
     /**
      * Creates a new instance of SesionInfante
      */
@@ -86,6 +92,34 @@ public class SesionInfanteDE implements Serializable {
         listadoInfantes = listaInfantes.obtenerListaInfantes();
         pintarLista();
    }
+
+    public String getOpcionElegida() {
+        return opcionElegida;
+    }
+
+    public void setOpcionElegida(String opcionElegida) {
+        this.opcionElegida = opcionElegida;
+    }
+
+    public int getNumeroPosiciones() {
+        return numeroPosiciones;
+    }
+
+    public void setNumeroPosiciones(int numeroPosiciones) {
+        this.numeroPosiciones = numeroPosiciones;
+    }
+    
+    
+
+    public int getPosicionInfante() {
+        return posicionInfante;
+    }
+
+    public void setPosicionInfante(int posicionInfante) {
+        this.posicionInfante = posicionInfante;
+    }
+    
+    
 
     public Infante getInfanteDiagrama() {
         return infanteDiagrama;
@@ -394,7 +428,23 @@ public class SesionInfanteDE implements Serializable {
         }
     }
         
-
+    public void obtenerInfanteMenor()
+    {
+        try {
+            infanteDiagrama = listaInfantes.obtenerInfanteMenorEdad();
+        } catch (InfanteExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    public void obtenerPosicionInfante()
+    {
+        try {
+            posicionInfante = listaInfantes.obtenerPosicionInfante(infanteSeleccionado);
+        } catch (InfanteExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }    
         
     public void eliminarInfanteDiagrama()
     {
@@ -441,6 +491,45 @@ public class SesionInfanteDE implements Serializable {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
+   
     
+    public void cambiarPosicion()
+    {
+        boolean bandera=false;
+        int posicionFinal= 0;
+        switch(opcionElegida)
+        {
+            case"1":
+                if(numeroPosiciones <= (posicionInfante -1))
+                {
+                    bandera=true;
+                    posicionFinal = posicionInfante - numeroPosiciones;
+                }
+            break;
+            case"0":
+                if(numeroPosiciones <= (listaInfantes.contarNodos()-posicionInfante))
+                {
+                    bandera=true;
+                    posicionFinal = posicionInfante + numeroPosiciones;
+                }
+                break;
+        }
+        if(bandera)
+        {
+            try {
+                Infante datosInfante = listaInfantes.obtenerInfante(infanteSeleccionado);
+                listaInfantes.eliminarInfante(infanteSeleccionado);
+                listaInfantes.adicionarNodoPosicion(posicionFinal, datosInfante);
+                pintarLista();
+                JsfUtil.addSuccessMessage("Se ha realizado el cambio");
+            } catch (InfanteExcepcion ex) {
+               JsfUtil.addErrorMessage(ex.getMessage());
+            }
+        }
+        else
+        {
+            JsfUtil.addErrorMessage("El numero de posiciones NO es valido para el infante dado");
+        }
+    }
     
 }

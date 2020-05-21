@@ -106,20 +106,29 @@
                                          update="frmInfante,:grwlErrores"
                                          />
                     </p:panel>
-                    <p:panel header="Reportes">
-                        <p:outputLabel value="Promedio de Edad de los infantes: #{sesionInfanteDE.listaInfantes.promediarEdades()}"/>
-                        <br/>
-                        <p:outputLabel value="{}"/>
-                        <br/>
-                        <h:panelGrid columns="2">
-                            <p:outputLabel value="Cantidad Niños: "/>
-                            <p:outputLabel value="#{sesionInfanteDE.listaInfantes.contarInfantesxGenero(true)}"/>               
-                            <p:outputLabel value="Cantidad Niñas: "/>
-                            <p:outputLabel value="#{sesionInfanteDE.listaInfantes.contarInfantesxGenero(false)}"/>
-                        </h:panelGrid>
-                    </p:panel>
+                    <h:panelGroup>
+                        <p:panel header="Reportes">
+                            <p:outputLabel value="Promedio de Edad de los infantes: #{sesionInfanteDE.listaInfantes.promediarEdades()}"/>
+                            <br/>
+                            <p:outputLabel value="#{sesionInfanteDE.listaInfantes.obtenerListadoInfantes()}"/>
+                            <br/>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Cantidad Niños: "/>
+                                <p:outputLabel value="#{sesionInfanteDE.listaInfantes.contarInfantesxGenero(true)}"/>               
+                                <p:outputLabel value="Cantidad Niñas: "/>
+                                <p:outputLabel value="#{sesionInfanteDE.listaInfantes.contarInfantesxGenero(false)}"/>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:commandButton value="Ver Infante Menor"
+                                         action="#{sesionInfanteDE.obtenerInfanteMenor()}" 
+                                         update="panelInfante"                                    
+                                         oncomplete="PF('dlgDatosInfante').show();" />
 
 
+
+
+                    </h:panelGroup>
                 </p:panelGrid>
 
                 <p:panel header="Gráfico" id="pnlVista" style="width: 100%;">
@@ -188,6 +197,10 @@
                                     action="#{sesionInfanteDE.obtenerInfanteDiagrama()}" 
                                     update="panelInfante"                                    
                                     oncomplete="PF('dlgDatosInfante').show();" />
+                        <p:menuitem value="Ver posicion"
+                                    action="#{sesionInfanteDE.obtenerPosicionInfante()}"
+                                    update="panelPosicion"                                    
+                                    oncomplete="PF('dlgposiconInfante').show();" />                        
                         <p:menuitem value="Eliminar" update="panelEliminar"
                                     action="#{sesionInfanteDE.obtenerInfanteDiagrama()}"
                                     oncomplete="PF('dlgEliminar').show();"/>
@@ -196,11 +209,15 @@
                         <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
                                     action="#{sesionInfanteDE.enviarAlInicio()}"                                    
                                     />
-                        <p:menuitem value="Adelantar/Perder Posición"/>
+                        <p:menuitem value="Adelantar/Perder Posición"
+                                    action="#{sesionInfanteDE.obtenerPosicionInfante()}" 
+                                    update="panelGestionPosicion"                                    
+                                    oncomplete="PF('dlgGestionPosiconInfante').show();"/>
+
                     </p:contextMenu>
                 </p:panel>
             </p:panel>
-            
+
             <p:dialog id="modalInfante" header="Datos Infante" widgetVar="dlgDatosInfante" 
                       modal="true" height="100">
                 <p:panel id="panelInfante">
@@ -214,26 +231,59 @@
                         <h:outputText rendered="#{!sesionInfanteDE.infanteDiagrama.genero}" value="Femenino" />
                     </h:panelGrid>
                 </p:panel>
-                </p:dialog>
-                    
-                    
+            </p:dialog>
+
+            <p:dialog id="posicionInfante" header="Ver posicion infante" widgetVar="dlgposiconInfante"
+                      modal="true" height="50">
+                <h:panelGroup id="panelPosicion">
+                    <p:outputLabel value="posicion #{sesionInfanteDE.posicionInfante}"/>
+
+                </h:panelGroup>    
+
+            </p:dialog>
+
+            <p:dialog id="gestionPosicionInfante" header="Adelantar/perder posicion infante" 
+                      widgetVar="dlgGestionPosiconInfante"
+                      modal="true" height="150">
+                <h:panelGroup id="panelGestionPosicion">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Posicion Actual"/>
+                        <p:outputLabel value="#{sesionInfanteDE.posicionInfante}"/>
+                        <p:outputLabel value="Accion"/>
+                        <p:selectOneMenu value="#{sesionInfanteDE.opcionElegida}">
+                            <f:selectItem itemLabel="Ganar" itemValue="1"/>
+                            <f:selectItem itemLabel="Perder" itemValue="o"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Numero de Posiciones"/>
+                        <p:spinner min="1" value="#{sesionInfanteDE.numeroPosiciones}"/>
+                    </h:panelGrid>
+                    <p:commandButton value="Aplicar" action="#{sesionInfanteDE.cambiarPosicion()}"
+                                     onclick="PF('dlgGestionPosiconInfante').hide();"
+                                     ajax="false"
+                                     update="pnlVista"/>
+
+                </h:panelGroup>    
+
+            </p:dialog>
+
+
             <p:dialog id="modalEliminar" header="Dato a Eliminar" widgetVar="dlgEliminar" 
                       modal="true" height="100">
                 <p:panel id="panelEliminar">
-                    
+
                     <h:panelGrid columns="1">
                         <h:outputText value="Confirme si desea eliminar el Infante"/>
                     </h:panelGrid>
-                    
-                    
+
+
                     <p:commandButton value="Aceptar" action="#{sesionInfanteDE.eliminarInfanteDiagrama()}"
-                                       oncomplete="PF('dlgEliminar').hide();"
-                                       update="pnlVista"/>
-                        
-                        <p:commandButton value="Cancelar" 
-                                       onclick="PF('dlgEliminar').hide();"
-                                       update="pnlVista"/>
-                          
+                                     oncomplete="PF('dlgEliminar').hide();"
+                                     update="pnlVista"/>
+
+                    <p:commandButton value="Cancelar" 
+                                     onclick="PF('dlgEliminar').hide();"
+                                     update="pnlVista"/>
+
                 </p:panel>
             </p:dialog> 
         </h:form>
