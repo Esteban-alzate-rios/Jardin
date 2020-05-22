@@ -10,12 +10,12 @@ import com.listase.motoGP.Corredor;
 import com.listase.motoGP.ListaDEGP;
 import com.listase.motoGP.NodoDEGP;
 import com.listase.utilidades.JsfUtil;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import loginjsfmodelo.Usuario;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
@@ -31,19 +31,23 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
 /**
  *
  * @author esteban
- */ 
-@Named(value = "sesionMotoGPDE")
+ */
+@Named(value = "sesionMotoGP")
 @SessionScoped
-public class SesionMotoGPDE implements Serializable {
-   
-    
-    private Usuario usuarioAuntenticado;
+public class SesionMotoGP implements Serializable {
+
+ private Usuario usuarioAuntenticado;
            
     private ListaDEGP listaCorredor;
+    
     private Corredor corredor;
+    
     private String alInicio="1";
+    
     private boolean deshabilitarFormulario=true;
-    private NodoDEGP ayudante;   
+    
+    private NodoDEGP ayudante;
+    
     private String textoVista="Gráfico";
     
     private List listadoCorredor;
@@ -62,9 +66,7 @@ public class SesionMotoGPDE implements Serializable {
    
     
    
-    public SesionMotoGPDE() {   
-        System.out.print("hola");
-    }
+    
     
     @PostConstruct
     private void inicializar()
@@ -73,7 +75,7 @@ public class SesionMotoGPDE implements Serializable {
         codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
         listaCorredor = new ListaDEGP();        
         //LLenado de la bds
-        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Agrango", (byte)18, true, controlLocalidades.getCiudades().get(0).getNombre()));
+        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Arango", (byte)18, true, controlLocalidades.getCiudades().get(0).getNombre()));
         listaCorredor.adicionarNodoGP(new Corredor((short)46, "Esteban Rodriguez", (byte)18, true, controlLocalidades.getCiudades().get(1).getNombre()));
         ayudante = listaCorredor.getCabeza();
         corredor = ayudante.getDato();
@@ -410,9 +412,5 @@ public class SesionMotoGPDE implements Serializable {
         }
     }
 
-   
-    
-    
-    
     
 }

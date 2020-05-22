@@ -40,69 +40,70 @@
         <p:growl id="grwlErrores"/>
         <h:form id="frmCorredor">
             <p:commandButton value="Volver" action="inicio" />
-            <p:panel header="Lista Doblemente Enlazada MotoGP - Total Corredores #{sesionMotoGPDE.listaCorredor.contarNodos()}">
+            
+            <p:panel header="Lista Doblemente Enlazada MotoGP - Total Corredores #{sesionMotoGP.listaCorredor.contarNodos()}">
                 <p:panelGrid columns="2">
                     <p:panel header="Datos Corredor">
 
                         <p:panelGrid columns="2">
                             <p:outputLabel for="txtNombre" value="Nombre"/>
-                            <p:inputText id="txtNombre" required="true" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"
-                                         value="#{sesionMotoGPDE.corredor.nombre}"   />
+                            <p:inputText id="txtNombre" required="true" disabled="#{sesionMotoGP.deshabilitarFormulario}"
+                                         value="#{sesionMotoGP.corredor.nombre}"   />
                             <p:outputLabel for="spEdad" value="Edad"/>
-                            <p:spinner id="spEdad" required="true" min="1" max="7" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"
-                                       value="#{sesionMotoGPDE.corredor.edad}"/>
+                            <p:spinner id="spEdad" required="true" min="1" max="7" disabled="#{sesionMotoGP.deshabilitarFormulario}"
+                                       value="#{sesionMotoGP.corredor.edad}"/>
                             <p:outputLabel value="Género"/>
-                            <p:selectOneMenu value="#{sesionMotoGPDE.corredor.genero}"
-                                             disabled="#{sesionMotoGPDE.deshabilitarFormulario}">
+                            <p:selectOneMenu value="#{sesionMotoGP.corredor.genero}"
+                                             disabled="#{sesionMotoGP.deshabilitarFormulario}">
                                 <f:selectItem itemLabel="Masculino" itemValue="true"/>
                                 <f:selectItem itemLabel="Femenino" itemValue="false"/>
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Departamento"/>
-                            <p:selectOneMenu value="#{sesionMotoGPDE.codigoDeptoSel}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}" >
-                                <f:selectItems value="#{sesionMotoGPDE.controlLocalidades.departamentos}" 
+                            <p:selectOneMenu value="#{sesionMotoGP.codigoDeptoSel}" disabled="#{sesionMotoGP.deshabilitarFormulario}" >
+                                <f:selectItems value="#{sesionMotoGP.controlLocalidades.departamentos}" 
                                                var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
                                                />
                                 <p:ajax event="change" update="cmbCiudad" process="cmbCiudad" />
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Ciudad"/>
-                            <p:selectOneMenu id="cmbCiudad" value="#{sesionMotoGPDE.corredor.ciudadNacimiento}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"  >
-                                <f:selectItems value="#{sesionMotoGPDE.controlLocalidades.obtenerCiudadesxDepto(sesionMotoGPDE.codigoDeptoSel)}" 
+                            <p:selectOneMenu id="cmbCiudad" value="#{sesionMotoGP.corredor.ciudadNacimiento}" disabled="#{sesionMotoGP.deshabilitarFormulario}"  >
+                                <f:selectItems value="#{sesionMotoGP.controlLocalidades.obtenerCiudadesxDepto(sesionMotoGP.codigoDeptoSel)}" 
                                                var="ciudad" itemLabel="#{ciudad.nombre}" itemValue="#{ciudad.nombre}"
                                                />
                             </p:selectOneMenu>
 
 
                             <p:outputLabel value="Al inicio"/>
-                            <p:selectOneMenu value="#{sesionMotoGPDE.alInicio}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}">
+                            <p:selectOneMenu value="#{sesionMotoGP.alInicio}" disabled="#{sesionMotoGP.deshabilitarFormulario}">
                                 <f:selectItem itemLabel="SI" itemValue="1"/>
                                 <f:selectItem itemLabel="NO" itemValue="0"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <p:commandButton value="Guardar" update="frmCorredor,:grwlErrores"
-                                         action="#{sesionMotoGPDE.guardarCorredor()}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"/>
+                                         action="#{sesionMotoGP.guardarCorredor()}" disabled="#{sesionMotoGP.deshabilitarFormulario}"/>
 
-                        <p:commandButton value="Nuevo" update="frmCorredor" action="#{sesionMotoGPDE.habilitarFormulario()}"
-                                         disabled="#{!sesionMotoGPDE.deshabilitarFormulario}"
+                        <p:commandButton value="Nuevo" update="frmCorredor" action="#{sesionMotoGP.habilitarFormulario()}"
+                                         disabled="#{!sesionMotoGP.deshabilitarFormulario}"
                                          />
                         <p:commandButton value="Invertir"  update="frmCorredor,:grwlErrores"
-                                         action="#{sesionMotoGPDE.invertirLista()}"
+                                         action="#{sesionMotoGP.invertirLista()}"
                                          />
                         <p:panelGrid columns="4">
-                            <p:commandButton value="Primero" action="#{sesionMotoGPDE.irPrimero()}" 
+                            <p:commandButton value="Primero" action="#{sesionMotoGP.irPrimero()}" 
                                              update="frmCorredor"/>
-                            <p:commandButton value="Anterior" action="#{sesionMotoGPDE.irAnterior()}"
+                            <p:commandButton value="Anterior" action="#{sesionMotoGP.irAnterior()}"
                                              update="frmCorredor"/>
-                            <p:commandButton value="Siguiente" action="#{sesionMotoGPDE.irSiguiente()}"
+                            <p:commandButton value="Siguiente" action="#{sesionMotoGP.irSiguiente()}"
                                              update="frmCorredor"/>       
-                            <p:commandButton value="Último" action="#{sesionMotoGPDE.irUltimo()}" 
+                            <p:commandButton value="Último" action="#{sesionMotoGP.irUltimo()}" 
                                              update="frmCorredor"/>                           
 
                         </p:panelGrid>
                         <p:outputLabel value="Código a eliminar: "/>
-                        <p:inputText value="#{sesionMotoGPDE.codigoEliminar}" maxlength="4" size="10"/>
-                        <p:commandButton value="Eliminar" action="#{sesionMotoGPDE.eliminarCorredor()}" 
+                        <p:inputText value="#{sesionMotoGP.codigoEliminar}" maxlength="4" size="10"/>
+                        <p:commandButton value="Eliminar" action="#{sesionMotoGP.eliminarCorredor()}" 
                                          update="frmCorredor,:grwlErrores"
                                          />
                     </p:panel>
@@ -112,11 +113,11 @@
                 </p:panelGrid>
 
                 <p:panel header="Gráfico" id="pnlVista" style="width: 100%;">
-                    <p:commandButton value="#{sesionMotoGPDE.textoVista}" 
-                                     action="#{sesionMotoGPDE.cambiarVistaCorredor()}"
+                    <p:commandButton value="#{sesionMotoGP.textoVista}" 
+                                     action="#{sesionMotoGP.cambiarVistaCorredor()}"
                                      update="pnlVista"/>
 
-                    <p:dataTable rendered="#{sesionMotoGPDE.textoVista=='Gráfico'}"  value="#{sesionMotoGPDE.listadoCorredor}" var="inf">
+                    <p:dataTable rendered="#{sesionMotoGP.textoVista=='Gráfico'}"  value="#{sesionMotoGP.listadoCorredor}" var="inf">
                         <p:column>
                             <f:facet name="header">
                                 <p:outputLabel value="Código"/>
@@ -144,26 +145,26 @@
                         </p:column>
 
                             <p:outputLabel value="Departamento"/>
-                            <p:selectOneMenu value="#{sesionMotoGPDE.codigoDeptoSel}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}" >
-                                <f:selectItems value="#{sesionMotoGPDE.controlLocalidades.departamentos}" 
+                            <p:selectOneMenu value="#{sesionMotoGP.codigoDeptoSel}" disabled="#{sesionMotoGP.deshabilitarFormulario}" >
+                                <f:selectItems value="#{sesionMotoGP.controlLocalidades.departamentos}" 
                                                var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
                                                />
                             <p:ajax event="change" update="cmbCiudad" process="cmbCiudad" />
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Ciudad"/>
-                            <p:selectOneMenu id="cmbCiudad" value="#{sesionMotoGPDE.corredor.ciudadNacimiento}" disabled="#{sesionMotoGPDE.deshabilitarFormulario}"  >
-                                <f:selectItems value="#{sesionMotoGPDE.controlLocalidades.obtenerCiudadesxDepto(sesionMotoGPDE.codigoDeptoSel)}" 
+                            <p:selectOneMenu id="cmbCiudad" value="#{sesionMotoGP.corredor.ciudadNacimiento}" disabled="#{sesionMotoGP.deshabilitarFormulario}"  >
+                                <f:selectItems value="#{sesionMotoGP.controlLocalidades.obtenerCiudadesxDepto(sesionMotoGP.codigoDeptoSel)}" 
                                                var="ciudad" itemLabel="#{ciudad.nombre}" itemValue="#{ciudad.nombre}"
                                                />
                             </p:selectOneMenu>
                         
                     </p:dataTable>
 
-                <p:diagram id="diagrama" rendered="#{sesionMotoGPDE.textoVista=='Tabla'}" value="#{sesionMotoGPDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
+                <p:diagram id="diagrama" rendered="#{sesionMotoGP.textoVista=='Tabla'}" value="#{sesionMotoGP.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
 
                     <p:remoteCommand name="elementClickRight" 
-                                     actionListener="#{sesionMotoGPDE.onClickRight()}" 
+                                     actionListener="#{sesionMotoGP.onClickRight()}" 
                                      >
                     </p:remoteCommand>
 
@@ -184,14 +185,14 @@
                                    targetFilter=".ui-diagram-element"
                                    >
                         <p:menuitem value="Ver datos" 
-                                    action="#{sesionMotoGPDE.obtenerCorredorDiagrama()}" 
+                                    action="#{sesionMotoGP.obtenerCorredorDiagrama()}" 
                                     update="panelCorredor"                                    
                                     oncomplete="PF('dlgDatosCorredor').show();" />
                         <p:menuitem value="Eliminar"/>
                         <p:menuitem value="Enviar al final" update="pnlVista"                                    
-                                    action="#{sesionMotoGPDE.enviarAlFinal()}"/>
+                                    action="#{sesionMotoGP.enviarAlFinal()}"/>
                         <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
-                                    action="#{sesionMotoGPDE.enviarAlInicio()}"                                    
+                                    action="#{sesionMotoGP.enviarAlInicio()}"                                    
                                     />
                         <p:menuitem value="Adelantar/Perder Posición"/>
                     </p:contextMenu>
@@ -203,16 +204,17 @@
                 <p:panel id="panelCorredor">
                     <h:panelGrid columns="2">
                         <h:outputText value="Código:" />
-                        <h:outputText value="#{sesionMotoGPDE.corredorDiagrama.codigo}" />
+                        <h:outputText value="#{sesionMotoGP.corredorDiagrama.codigo}" />
                         <h:outputText value="Nombre:" />
-                        <h:outputText value="#{sesionMotoGPDE.corredorDiagrama.nombre}" />
+                        <h:outputText value="#{sesionMotoGP.corredorDiagrama.nombre}" />
                         <h:outputText value="Género:" />
-                        <h:outputText rendered="#{sesionMotoGPDE.corredorDiagrama.genero}" value="Masculino" />
-                        <h:outputText rendered="#{!sesionMotoGPDE.corredorDiagrama.genero}" value="Femenino" />
+                        <h:outputText rendered="#{sesionMotoGP.corredorDiagrama.genero}" value="Masculino" />
+                        <h:outputText rendered="#{!sesionMotoGP.corredorDiagrama.genero}" value="Femenino" />
                     </h:panelGrid>
                     
                 </p:panel>
             </p:dialog> 
+         
         </h:form>
 
     </h:body>    

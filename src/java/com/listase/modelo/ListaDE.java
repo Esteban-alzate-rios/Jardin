@@ -71,6 +71,7 @@ public class ListaDE implements Serializable{
          if(posicion ==1)
          {
              adicionarNodoAlInicio(dato);
+             return;
          }
          else
          {    
@@ -324,7 +325,7 @@ public class ListaDE implements Serializable{
                  {
                      return cont;
                  }
-                 temp.getSiguiente();
+                temp = temp.getSiguiente();
                  cont++;
           }
           throw new InfanteExcepcion("El codigo ingresado no exite");
