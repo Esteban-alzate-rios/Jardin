@@ -421,10 +421,7 @@ public class SesionInfante implements Serializable {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
-    
-    public static void main(String[] args) {
-        
-    }
+   
     
     
         

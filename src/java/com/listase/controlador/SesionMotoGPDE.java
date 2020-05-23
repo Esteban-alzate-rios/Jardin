@@ -5,7 +5,8 @@
  */
 package com.listase.controlador;
 
-import com.listase.Excepciones.MotoGpExcepcion;
+
+import com.listase.excepciones.MotoException;
 import com.listase.motoGP.Corredor;
 import com.listase.motoGP.ListaDEGP;
 import com.listase.motoGP.NodoDEGP;
@@ -357,7 +358,7 @@ public class SesionMotoGPDE implements Serializable {
                 irPrimero();
                 JsfUtil.addSuccessMessage("Infante "+codigoEliminar +" eliminado.");
             }
-            catch(MotoGpExcepcion e)
+            catch(MotoException e)
             {
                 JsfUtil.addErrorMessage(e.getMessage());
             }
@@ -373,7 +374,7 @@ public class SesionMotoGPDE implements Serializable {
     {
         try {
             corredorDiagrama = listaCorredor.obtenerCorredor(corredorSeleccionado);
-        } catch (MotoGpExcepcion ex) {
+        } catch (MotoException ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
@@ -384,12 +385,12 @@ public class SesionMotoGPDE implements Serializable {
             ///Buscar el corredor y guardar los datos en una variable temporal
             Corredor correTemporal = listaCorredor.obtenerCorredor(corredorSeleccionado);
             // Eliminar el nodo
-            listaCorredor.EliminarCorredor(corredorSeleccionado);
+            listaCorredor.eliminarCorredor(corredorSeleccionado);
             // Adicionarlo al final
             listaCorredor.adicionarNodoGP(correTemporal);
             
             pintarLista();
-        } catch (MotoGpExcepcion ex) {
+        } catch (MotoException ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
@@ -400,12 +401,12 @@ public class SesionMotoGPDE implements Serializable {
             ///Buscar el corredor y guardar los datos en una variable temporal
             Corredor correTemporal = listaCorredor.obtenerCorredor(corredorSeleccionado);
             // Eliminar el nodo
-            listaCorredor.EliminarCorredor(corredorSeleccionado);
+            listaCorredor.eliminarCorredor(corredorSeleccionado);
             // Adicionarlo al inicio
             listaCorredor.adicionarNodoAlInicio(correTemporal);
             
             pintarLista();
-        } catch (MotoGpExcepcion ex) {
+        } catch (MotoException ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }

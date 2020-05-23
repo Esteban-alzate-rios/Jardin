@@ -39,8 +39,7 @@
     <h:body>
         <p:growl id="grwlErrores"/>
         <h:form id="frmCorredor">
-            <p:commandButton value="Volver" action="inicio" />
-            
+            <p:commandButton value="Volver" action="#{sesionMotoGP.prueba()}" />
             <p:panel header="Lista Doblemente Enlazada MotoGP - Total Corredores #{sesionMotoGP.listaCorredor.contarNodos()}">
                 <p:panelGrid columns="2">
                     <p:panel header="Datos Corredor">
@@ -214,7 +213,6 @@
                     
                 </p:panel>
             </p:dialog> 
-         
         </h:form>
 
     </h:body>    

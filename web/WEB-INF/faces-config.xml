@@ -10,9 +10,11 @@
             <to-view-id>/inicioListas.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <!--
     <managed-bean>
         <managed-bean-name>controladorLocalidadesMotoGP</managed-bean-name>
         <managed-bean-class>com.listase.controlador.ControladorLocalidadesMotoGP</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
+    -->
 </faces-config>

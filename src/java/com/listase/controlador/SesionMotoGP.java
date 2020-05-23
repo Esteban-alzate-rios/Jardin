@@ -5,7 +5,8 @@
  */
 package com.listase.controlador;
 
-import com.listase.Excepciones.MotoGpExcepcion;
+
+import com.listase.excepciones.MotoException;
 import com.listase.motoGP.Corredor;
 import com.listase.motoGP.ListaDEGP;
 import com.listase.motoGP.NodoDEGP;
@@ -35,7 +36,9 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
 @Named(value = "sesionMotoGP")
 @SessionScoped
 public class SesionMotoGP implements Serializable {
+    
 
+    
  private Usuario usuarioAuntenticado;
            
     private ListaDEGP listaCorredor;
@@ -63,11 +66,11 @@ public class SesionMotoGP implements Serializable {
     private Corredor corredorDiagrama;
     
     private ControladorLocalidadesMotoGP controlLocalidades;
+
+    public SesionMotoGP() {
+    }    
    
-    
-   
-    
-    
+        
     @PostConstruct
     private void inicializar()
     {
@@ -75,7 +78,7 @@ public class SesionMotoGP implements Serializable {
         codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
         listaCorredor = new ListaDEGP();        
         //LLenado de la bds
-        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Arango", (byte)18, true, controlLocalidades.getCiudades().get(0).getNombre()));
+        listaCorredor.adicionarNodoGP(new Corredor((short)45, "Arango", (byte)18, true, controlLocalidades.getCiudades().get(0).getNombre()));
         listaCorredor.adicionarNodoGP(new Corredor((short)46, "Esteban Rodriguez", (byte)18, true, controlLocalidades.getCiudades().get(1).getNombre()));
         ayudante = listaCorredor.getCabeza();
         corredor = ayudante.getDato();
@@ -194,8 +197,7 @@ public class SesionMotoGP implements Serializable {
          
         return conn;
     }
-    
-   
+       
     
     public void guardarCorredor()
     {
@@ -349,7 +351,7 @@ public class SesionMotoGP implements Serializable {
         
     }
 
-    public void EliminarCorredor()
+    public void eliminarCorredor()
     {
                 if(codigoEliminar >0)
         {
@@ -359,7 +361,7 @@ public class SesionMotoGP implements Serializable {
                 irPrimero();
                 JsfUtil.addSuccessMessage("Infante "+codigoEliminar +" eliminado.");
             }
-            catch(MotoGpExcepcion e)
+            catch(MotoException e)
             {
                 JsfUtil.addErrorMessage(e.getMessage());
             }
@@ -375,7 +377,7 @@ public class SesionMotoGP implements Serializable {
     {
         try {
             corredorDiagrama = listaCorredor.obtenerCorredor(corredorSeleccionado);
-        } catch (MotoGpExcepcion ex) {
+        } catch (MotoException ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
@@ -386,12 +388,12 @@ public class SesionMotoGP implements Serializable {
             ///Buscar el corredor y guardar los datos en una variable temporal
             Corredor correTemporal = listaCorredor.obtenerCorredor(corredorSeleccionado);
             // Eliminar el nodo
-            listaCorredor.EliminarCorredor(corredorSeleccionado);
+            listaCorredor.eliminarCorredor(corredorSeleccionado);
             // Adicionarlo al final
             listaCorredor.adicionarNodoGP(correTemporal);
             
-            pintarLista();
-        } catch (MotoGpExcepcion ex) {
+           // pintarLista();
+        } catch (MotoException ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
@@ -402,15 +404,20 @@ public class SesionMotoGP implements Serializable {
             ///Buscar el corredor y guardar los datos en una variable temporal
             Corredor correTemporal = listaCorredor.obtenerCorredor(corredorSeleccionado);
             // Eliminar el nodo
-            listaCorredor.EliminarCorredor(corredorSeleccionado);
+            listaCorredor.eliminarCorredor(corredorSeleccionado);
             // Adicionarlo al inicio
             listaCorredor.adicionarNodoAlInicio(correTemporal);
             
-            pintarLista();
-        } catch (MotoGpExcepcion ex) {
+           // pintarLista();
+        } catch (MotoException ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
 
+    
+    public String prueba()
+    {
+        return "inicio";
+    }
     
 }

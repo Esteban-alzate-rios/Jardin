@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.listase.Excepciones;
+package com.listase.excepciones;
 
 /**
  *
  * @author esteban
  */
-public class MotoGpExcepcion extends Exception{
+public class MotoException extends Exception{
 
-    public MotoGpExcepcion(String string) {
-        super(string);
+    public MotoException(String message) {
+        super(message);
     }
-
-   
+    
 }

@@ -9,7 +9,8 @@ package com.listase.motoGP;
 
 
 
-import com.listase.Excepciones.MotoGpExcepcion;
+
+import com.listase.excepciones.MotoException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -188,7 +189,7 @@ public class ListaDEGP implements Serializable {
         }
     }
     
-    public void eliminarCorredor(short codigo ) throws MotoGpExcepcion
+    public void eliminarCorredor(short codigo ) throws MotoException
     {
         if(cabeza !=null)
         {
@@ -214,13 +215,13 @@ public class ListaDEGP implements Serializable {
                     temp = temp.getSiguiente();
                 }
                 
-                throw new MotoGpExcepcion("El código "+codigo +" no existe en la lista");
+                throw new MotoException("El código "+codigo +" no existe en la lista");
             }
         }
-        throw new MotoGpExcepcion("La lista de corredors está vacía");
+        throw new MotoException("La lista de corredors está vacía");
     }
     
-      public Corredor obtenerCorredor(short codigo ) throws MotoGpExcepcion
+      public Corredor obtenerCorredor(short codigo ) throws MotoException
     {
         if(cabeza !=null)
         {
@@ -240,14 +241,12 @@ public class ListaDEGP implements Serializable {
                     temp = temp.getSiguiente();
                 }
                 
-                throw new MotoGpExcepcion("El código "+codigo +" no existe en la lista");
+                throw new MotoException("El código "+codigo +" no existe en la lista");
             }
         }
-        throw new MotoGpExcepcion("La lista de corredors está vacía");
+        throw new MotoException("La lista de corredors está vacía");
     }
 
-    public void EliminarCorredor(short corredorSeleccionado) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  
 
 }
