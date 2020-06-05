@@ -9,12 +9,15 @@ package com.listase.controlador;
 import com.listase.excepciones.MotoException;
 import com.listase.motoGP.Corredor;
 import com.listase.motoGP.ListaDEGP;
+
 import com.listase.motoGP.NodoDEGP;
 import com.listase.utilidades.JsfUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import loginjsfmodelo.Usuario;
@@ -66,6 +69,18 @@ public class SesionMotoGP implements Serializable {
     private Corredor corredorDiagrama;
     
     private ControladorLocalidadesMotoGP controlLocalidades;
+    
+    private int posicionCorredor;
+    
+    private String opcionElegida ="1";
+    
+    private int numeroPosiciones=1;
+    
+    private short corredor1;
+    
+    private short corredor2;
+     
+   
 
     public SesionMotoGP() {
     }    
@@ -78,14 +93,58 @@ public class SesionMotoGP implements Serializable {
         codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
         listaCorredor = new ListaDEGP();        
         //LLenado de la bds
-        listaCorredor.adicionarNodoGP(new Corredor((short)45, "Arango", (byte)18, true, controlLocalidades.getCiudades().get(0).getNombre()));
-        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Esteban Rodriguez", (byte)18, true, controlLocalidades.getCiudades().get(1).getNombre()));
+        listaCorredor.adicionarNodoGP(new Corredor((short)45, "Arango", (byte)21, true, controlLocalidades.getCiudades().get(0).getNombre(),(float)1.36));
+        listaCorredor.adicionarNodoGP(new Corredor((short)46, "Rodriguez", (byte)18, true, controlLocalidades.getCiudades().get(1).getNombre(),(float)1.37));
+        listaCorredor.adicionarNodoGP(new Corredor((short)28, "Alzate", (byte)19, true, controlLocalidades.getCiudades().get(1).getNombre(),(float)1.38));
         ayudante = listaCorredor.getCabeza();
         corredor = ayudante.getDato();
         //Me llena el objeto List para la tabla
-        listadoCorredor= listaCorredor.obtenerListaCorredors();
+        listadoCorredor= listaCorredor.obtenerListaCorredor();
         pintarLista();
    }
+
+    public short getCorredor1() {
+        return corredor1;
+    }
+
+    public void setCorredor1(short corredor1) {
+        this.corredor1 = corredor1;
+    }
+
+    public short getCorredor2() {
+        return corredor2;
+    }
+
+    public void setCorredor2(short corredor2) {
+        this.corredor2 = corredor2;
+    }
+    
+    
+    public String getOpcionElegida() {
+        return opcionElegida;
+    }
+
+    public void setOpcionElegida(String opcionElegida) {
+        this.opcionElegida = opcionElegida;
+    }
+
+    public int getNumeroPosiciones() {
+        return numeroPosiciones;
+    }
+
+    public void setNumeroPosiciones(int numeroPosiciones) {
+        this.numeroPosiciones = numeroPosiciones;
+    }
+    
+    
+
+    public int getPosicionCorredor() {
+        return posicionCorredor;
+    }
+
+    public void setPosicionCorredor(int posicionCorredor) {
+        this.posicionCorredor = posicionCorredor;
+    }
 
     public Usuario getUsuarioAuntenticado() {
         return usuarioAuntenticado;
@@ -212,7 +271,7 @@ public class SesionMotoGP implements Serializable {
             listaCorredor.adicionarNodoGP(corredor);
         }  
         //Vuelvo a llenar la lista para la tabla
-        listadoCorredor = listaCorredor.obtenerListaCorredors();
+        listadoCorredor = listaCorredor.obtenerListaCorredor();
         pintarLista();
         deshabilitarFormulario=true;
         JsfUtil.addSuccessMessage("El corredor se ha guardado exitosamente");
@@ -256,7 +315,7 @@ public class SesionMotoGP implements Serializable {
         {
             corredor = new Corredor();
         }
-        listadoCorredor = listaCorredor.obtenerListaCorredors();
+        listadoCorredor = listaCorredor.obtenerListaCorredor();
         pintarLista();
              
     }
@@ -275,13 +334,13 @@ public class SesionMotoGP implements Serializable {
     
     public void cambiarVistaCorredor()
     {
-        if(textoVista.compareTo("Tabla")==0)
+        if(textoVista.compareTo("Tabla clasificacion")==0)
         {
-            textoVista = "Gráfico";
+            textoVista = "Carrera";
         }
         else
         {
-            textoVista = "Tabla";
+            textoVista = "Tabla clasificacion";
         }
     }
     
@@ -307,8 +366,8 @@ public class SesionMotoGP implements Serializable {
         if (listaCorredor.getCabeza() != null) {
             //llamo a mi ayudante
             NodoDEGP temp = listaCorredor.getCabeza();
-            int posX=2;
-            int posY=2;
+            int posX=3;
+            int posY=3;
             //recorro la lista de principio a fin
             while(temp !=null)
             {
@@ -325,8 +384,8 @@ public class SesionMotoGP implements Serializable {
                 ele.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM));
                 model.addElement(ele);                    
                 temp=temp.getSiguiente();
-                posX=  posX+5;
-                posY= posY+6;
+                posX=  posX+0;
+                posY= posY+7;
             }            
            /*
             //Pinta las flechas            
@@ -359,7 +418,7 @@ public class SesionMotoGP implements Serializable {
             try{
                 listaCorredor.eliminarCorredor(codigoEliminar);
                 irPrimero();
-                JsfUtil.addSuccessMessage("Infante "+codigoEliminar +" eliminado.");
+                JsfUtil.addSuccessMessage("Corredor "+codigoEliminar +" eliminado.");
             }
             catch(MotoException e)
             {
@@ -377,6 +436,16 @@ public class SesionMotoGP implements Serializable {
     {
         try {
             corredorDiagrama = listaCorredor.obtenerCorredor(corredorSeleccionado);
+        } catch (MotoException ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    
+        public void obtenerGanador()
+    {
+        try {
+            corredorDiagrama = listaCorredor.obtenerGanador();
         } catch (MotoException ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
@@ -413,11 +482,97 @@ public class SesionMotoGP implements Serializable {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
-
     
-    public String prueba()
+    
+            
+   
+    
+    public void obtenerPosicionCorredor()
     {
-        return "inicio";
+        
+     try {
+         posicionCorredor = listaCorredor.obtenerCorredorPosicion(corredorSeleccionado);
+     } catch (MotoException ex) {
+         Logger.getLogger(SesionMotoGP.class.getName()).log(Level.SEVERE, null, ex);
+     }
+
     }
     
+    
+    
+        public void obtenerGanadorDiagrama()
+    {
+        try {
+            corredorDiagrama = listaCorredor.obtenerCorredor(corredorSeleccionado);
+        } catch (MotoException ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+
+    
+        public void eliminarCorredorDiagrama()
+    {
+     try {
+         listaCorredor.eliminarCorredor(corredorSeleccionado);
+         irPrimero();
+     } catch (MotoException ex) {
+         Logger.getLogger(SesionMotoGP.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     
+       
+            JsfUtil.addErrorMessage("se elimino correcatamente");
+       
+           
+    }
+        
+        public void cambiarCorredor()
+        {
+
+     try {
+         listaCorredor.intercambiarCorredor(corredor1, corredor2);
+         pintarLista();
+     } catch (MotoException ex) {
+         Logger.getLogger(SesionMotoGP.class.getName()).log(Level.SEVERE, null, ex);
+     }
+    }   
+       
+                
+        
+   
+ public void cambiarPosicion()
+    {
+        boolean bandera=false;
+        int posicionFinal= 0;
+        switch(opcionElegida)
+        {
+            case"1":
+                if(numeroPosiciones <= (posicionCorredor -1))
+                {
+                    bandera=true;
+                    posicionFinal = posicionCorredor - numeroPosiciones;
+                }
+            break;
+            case"0":
+                if(numeroPosiciones <= (listaCorredor.contarNodos()-posicionCorredor))
+                {
+                    bandera=true;
+                    posicionFinal = posicionCorredor + numeroPosiciones;
+                }
+                break;
+        }
+        if(bandera)
+        {
+            try {
+                Corredor datosCorredor = listaCorredor.obtenerCorredor(corredorSeleccionado);
+                listaCorredor.eliminarCorredor(corredorSeleccionado);
+                listaCorredor.adicionarNodoPosicion(posicionFinal, datosCorredor);
+                pintarLista();
+                JsfUtil.addSuccessMessage("Se ha realizado el cambio");
+            }catch (MotoException ex)
+                {
+                    JsfUtil.addErrorMessage(ex.getMessage());
+                }
+        }
+    }
+ 
 }

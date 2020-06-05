@@ -4,18 +4,19 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-               <title>Facelet Title</title>
+        <title>Facelet Title</title>
         <style type="text/css">
             .ui-diagram-element {   
                 width:8em; 
-                height:3em;     
-                line-height:3em;
+                height:5em;     
+                line-height:9em;
                 text-align: center;
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
                 border-radius: 4px;
                 border: 1px solid transparent;
-                background-color: #98AFC7;
-                color: #ffffff;
+                background: url("../imagenes/carrera.jpg") no-repeat;
+                background-size: 150px 60px; 
+                color: #000000;
             }
 
             .ui-diagram-success {
@@ -39,7 +40,7 @@
     <h:body>
         <p:growl id="grwlErrores"/>
         <h:form id="frmCorredor">
-            <p:commandButton value="Volver" action="#{sesionMotoGP.prueba()}" />
+
             <p:panel header="Lista Doblemente Enlazada MotoGP - Total Corredores #{sesionMotoGP.listaCorredor.contarNodos()}">
                 <p:panelGrid columns="2">
                     <p:panel header="Datos Corredor">
@@ -49,7 +50,7 @@
                             <p:inputText id="txtNombre" required="true" disabled="#{sesionMotoGP.deshabilitarFormulario}"
                                          value="#{sesionMotoGP.corredor.nombre}"   />
                             <p:outputLabel for="spEdad" value="Edad"/>
-                            <p:spinner id="spEdad" required="true" min="1" max="7" disabled="#{sesionMotoGP.deshabilitarFormulario}"
+                            <p:spinner id="spEdad" required="true" min="18" max="30" disabled="#{sesionMotoGP.deshabilitarFormulario}"
                                        value="#{sesionMotoGP.corredor.edad}"/>
                             <p:outputLabel value="Género"/>
                             <p:selectOneMenu value="#{sesionMotoGP.corredor.genero}"
@@ -73,12 +74,11 @@
                                                />
                             </p:selectOneMenu>
 
+                            <p:outputLabel for="txtTiempo" value="Tiempo"/>
+                            <p:inputText id="txtTiempo" required="true" disabled="#{sesionMotoGP.deshabilitarFormulario}"
+                                         value="#{sesionMotoGP.corredor.tiempo}"   />
 
-                            <p:outputLabel value="Al inicio"/>
-                            <p:selectOneMenu value="#{sesionMotoGP.alInicio}" disabled="#{sesionMotoGP.deshabilitarFormulario}">
-                                <f:selectItem itemLabel="SI" itemValue="1"/>
-                                <f:selectItem itemLabel="NO" itemValue="0"/>
-                            </p:selectOneMenu>
+
                         </p:panelGrid>
                         <p:commandButton value="Guardar" update="frmCorredor,:grwlErrores"
                                          action="#{sesionMotoGP.guardarCorredor()}" disabled="#{sesionMotoGP.deshabilitarFormulario}"/>
@@ -105,18 +105,41 @@
                         <p:commandButton value="Eliminar" action="#{sesionMotoGP.eliminarCorredor()}" 
                                          update="frmCorredor,:grwlErrores"
                                          />
+                        <p:commandButton value="Ver ganador"
+                                         action="#{sesionMotoGP.obtenerGanador()}" 
+                                         update="panelGanador"                                    
+                                         oncomplete="PF('dlgDatosGanador').show();" />
+                        
+
                     </p:panel>
-       
+                    <h:panelGroup>
+                        
+                    <p:outputLabel value="Códigos a cambiar "/>
+                    <img src="imagenes/Moto.jpeg" width="250px" height="250px"/>
+                   <h:panelGrid columns="2">
+                       
+                                <p:outputLabel value="Codigo1: "/>
+                                <p:inputText value="#{sesionMotoGP.corredor1}" maxlength="4" size="10"/>               
+                                <p:outputLabel value="Codigo2: "/>
+                                <p:inputText value="#{sesionMotoGP.corredor2}" maxlength="4" size="10"/>
+                                <p:commandButton value="Cambiar" action="#{sesionMotoGP.cambiarCorredor()}" 
+                                         update="pnlVista"
+                                         />   
+                                
+                   </h:panelGrid>
+
+                    </h:panelGroup>
+                    
 
 
                 </p:panelGrid>
 
-                <p:panel header="Gráfico" id="pnlVista" style="width: 100%;">
+                <p:panel header="Carrera" id="pnlVista" style="width: 100%;">
                     <p:commandButton value="#{sesionMotoGP.textoVista}" 
                                      action="#{sesionMotoGP.cambiarVistaCorredor()}"
                                      update="pnlVista"/>
 
-                    <p:dataTable rendered="#{sesionMotoGP.textoVista=='Gráfico'}"  value="#{sesionMotoGP.listadoCorredor}" var="inf">
+                    <p:dataTable rendered="#{sesionMotoGP.textoVista=='Carrera'}"  value="#{sesionMotoGP.listadoCorredor}" var="inf">
                         <p:column>
                             <f:facet name="header">
                                 <p:outputLabel value="Código"/>
@@ -143,24 +166,31 @@
                             <p:outputLabel rendered="#{!inf.genero}"  value="Femenino"/>                                
                         </p:column>
 
-                            <p:outputLabel value="Departamento"/>
-                            <p:selectOneMenu value="#{sesionMotoGP.codigoDeptoSel}" disabled="#{sesionMotoGP.deshabilitarFormulario}" >
-                                <f:selectItems value="#{sesionMotoGP.controlLocalidades.departamentos}" 
-                                               var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
-                                               />
-                            <p:ajax event="change" update="cmbCiudad" process="cmbCiudad" />
-                            </p:selectOneMenu>
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Tiempo"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.tiempo}"/>
+                        </p:column>
 
-                            <p:outputLabel value="Ciudad"/>
-                            <p:selectOneMenu id="cmbCiudad" value="#{sesionMotoGP.corredor.ciudadNacimiento}" disabled="#{sesionMotoGP.deshabilitarFormulario}"  >
-                                <f:selectItems value="#{sesionMotoGP.controlLocalidades.obtenerCiudadesxDepto(sesionMotoGP.codigoDeptoSel)}" 
-                                               var="ciudad" itemLabel="#{ciudad.nombre}" itemValue="#{ciudad.nombre}"
-                                               />
-                            </p:selectOneMenu>
-                        
+                        <p:outputLabel value="Departamento"/>
+                        <p:selectOneMenu value="#{sesionMotoGP.codigoDeptoSel}" disabled="#{sesionMotoGP.deshabilitarFormulario}" >
+                            <f:selectItems value="#{sesionMotoGP.controlLocalidades.departamentos}" 
+                                           var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
+                                           />
+                            <p:ajax event="change" update="cmbCiudad" process="cmbCiudad" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Ciudad"/>
+                        <p:selectOneMenu id="cmbCiudad" value="#{sesionMotoGP.corredor.ciudadNacimiento}" disabled="#{sesionMotoGP.deshabilitarFormulario}"  >
+                            <f:selectItems value="#{sesionMotoGP.controlLocalidades.obtenerCiudadesxDepto(sesionMotoGP.codigoDeptoSel)}" 
+                                           var="ciudad" itemLabel="#{ciudad.nombre}" itemValue="#{ciudad.nombre}"
+                                           />
+                        </p:selectOneMenu>
+
                     </p:dataTable>
 
-                <p:diagram id="diagrama" rendered="#{sesionMotoGP.textoVista=='Tabla'}" value="#{sesionMotoGP.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
+                    <p:diagram id="diagrama" rendered="#{sesionMotoGP.textoVista=='Tabla clasificacion'}" value="#{sesionMotoGP.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
 
                     <p:remoteCommand name="elementClickRight" 
                                      actionListener="#{sesionMotoGP.onClickRight()}" 
@@ -187,32 +217,131 @@
                                     action="#{sesionMotoGP.obtenerCorredorDiagrama()}" 
                                     update="panelCorredor"                                    
                                     oncomplete="PF('dlgDatosCorredor').show();" />
-                        <p:menuitem value="Eliminar"/>
+
+                        <p:menuitem value="Caer corredor" 
+                                    action="#{sesionMotoGP.obtenerCorredorDiagrama()}"
+                                    update="panelCaercorredor"
+                                    oncomplete="PF('dlgCaercorredor').show();" />
                         <p:menuitem value="Enviar al final" update="pnlVista"                                    
                                     action="#{sesionMotoGP.enviarAlFinal()}"/>
                         <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
                                     action="#{sesionMotoGP.enviarAlInicio()}"                                    
                                     />
-                        <p:menuitem value="Adelantar/Perder Posición"/>
+                        <p:menuitem value="Adelantar/Perder Posición"
+                                    action="#{sesionMotoGP.obtenerPosicionCorredor()}" 
+                                    update="panelGestionPosicion"                                    
+                                    oncomplete="PF('dlgGestionPosiconCorredor').show();"/>
+
+                        <p:menuitem value="Ver ganador" 
+                                    action="#{sesionMotoGP.obtenerGanadorDiagrama()}" 
+                                    update="panelGanador"                                    
+                                    oncomplete="PF('dlgDatosGanador').show();" />
+
                     </p:contextMenu>
+
+                    <p:dialog id="posicionCorredor" header="Ver posicion corrredor" widgetVar="dlgposiconCorredor"
+                              modal="true" height="50">
+                        <h:panelGroup id="panelPosicion">
+                            <p:outputLabel value="posicion #{sesionMotoGP.posicionCorredor}"/>
+
+                        </h:panelGroup>    
+
+                    </p:dialog>
+
+
+
+                    <p:dialog id="modalEliminar" header="Caer corredor" widgetVar="dlgCaercorredor" 
+                              modal="true" height="250">
+                        <p:panel id="panelCaercorredor">
+
+                            <h:panelGrid columns="1">
+                                <img src="imagenes/caer.jpeg" width="150px" height="150px"/>
+                                <h:outputText value="Confirme si desea que el corredor caiga"/>
+                            </h:panelGrid>
+
+
+                            <p:commandButton value="Aceptar" action="#{sesionMotoGP.eliminarCorredorDiagrama()}"
+                                             oncomplete="PF('dlgEliminar').hide();"
+                                             update="pnlVista"
+                                             />
+
+                            <p:commandButton value="Cancelar" 
+                                             onclick="PF('dlgEliminar').hide();"
+                                             update="pnlVista"/>
+
+                        </p:panel>
+                    </p:dialog>
+
+
+                    <p:dialog id="gestionPosicionCorredor" header="Adelantar/perder posicion corredor" 
+                              widgetVar="dlgGestionPosiconCorredor"
+                              modal="true" height="150">
+                        <h:panelGroup id="panelGestionPosicion">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Posicion Actual"/>
+                                <p:outputLabel value="#{sesionMotoGP.posicionCorredor}"/>
+                                <p:outputLabel value="Accion"/>
+                                <p:selectOneMenu value="#{sesionMotoGP.opcionElegida}">
+                                    <f:selectItem itemLabel="Ganar" itemValue="1"/>
+                                    <f:selectItem itemLabel="Perder" itemValue="0"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Numero de Posiciones"/>
+                                <p:spinner min="1" value="#{sesionMotoGP.numeroPosiciones}"/>
+                            </h:panelGrid>
+                            <p:commandButton value="Aplicar" action="#{sesionMotoGP.cambiarPosicion()}"
+                                             onclick="PF('dlgGestionPosiconCorredor').hide();"
+                                             ajax="false"
+                                             update="pnlVista"/>
+
+                        </h:panelGroup>    
+
+                    </p:dialog>
+
                 </p:panel>
             </p:panel>
-            
+
             <p:dialog id="modalCorredor" header="Datos Corredor" widgetVar="dlgDatosCorredor" 
-                      modal="true" height="100">
+                      modal="true" height="130">
                 <p:panel id="panelCorredor">
                     <h:panelGrid columns="2">
                         <h:outputText value="Código:" />
                         <h:outputText value="#{sesionMotoGP.corredorDiagrama.codigo}" />
                         <h:outputText value="Nombre:" />
                         <h:outputText value="#{sesionMotoGP.corredorDiagrama.nombre}" />
+                        <h:outputText value="Tiempo:" />
+                        <h:outputText value="#{sesionMotoGP.corredorDiagrama.tiempo}" />
                         <h:outputText value="Género:" />
                         <h:outputText rendered="#{sesionMotoGP.corredorDiagrama.genero}" value="Masculino" />
                         <h:outputText rendered="#{!sesionMotoGP.corredorDiagrama.genero}" value="Femenino" />
                     </h:panelGrid>
-                    
+
                 </p:panel>
             </p:dialog> 
+
+
+
+
+            <p:dialog id="modalGanador" header="Datos Ganador" widgetVar="dlgDatosGanador" 
+                      modal="true" height="290">
+                <img src="imagenes/ganador.jpeg" width="150px" height="150px"/>
+                <p:panel id="panelGanador">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Código:" />
+                        <h:outputText value="#{sesionMotoGP.corredorDiagrama.codigo}" />
+                        <h:outputText value="Nombre:" />
+                        <h:outputText value="#{sesionMotoGP.corredorDiagrama.nombre}" />
+                        <h:outputText value="Tiempo:" />
+                        <h:outputText value="#{sesionMotoGP.corredorDiagrama.tiempo}" />
+                        <h:outputText value="Género:" />
+                        <h:outputText rendered="#{sesionMotoGP.corredorDiagrama.genero}" value="Masculino" />
+                        <h:outputText rendered="#{!sesionMotoGP.corredorDiagrama.genero}" value="Femenino" />
+                    </h:panelGrid>
+
+                </p:panel>
+            </p:dialog>
+
+
+
         </h:form>
 
     </h:body>    

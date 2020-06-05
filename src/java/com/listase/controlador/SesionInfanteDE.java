@@ -522,7 +522,8 @@ public class SesionInfanteDE implements Serializable {
                 listaInfantes.adicionarNodoPosicion(posicionFinal, datosInfante);
                 pintarLista();
                 JsfUtil.addSuccessMessage("Se ha realizado el cambio");
-            } catch (InfanteExcepcion ex) {
+            } catch (InfanteExcepcion ex) 
+            {
                JsfUtil.addErrorMessage(ex.getMessage());
             }
         }

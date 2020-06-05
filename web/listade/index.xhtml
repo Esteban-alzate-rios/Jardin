@@ -136,7 +136,8 @@
                                      action="#{sesionInfanteDE.cambiarVistaInfantes()}"
                                      update="pnlVista"/>
 
-                    <p:dataTable rendered="#{sesionInfanteDE.textoVista=='Gráfico'}"  value="#{sesionInfanteDE.listadoInfantes}" var="inf">
+                    <p:dataTable rendered="#{sesionInfanteDE.textoVista=='Gráfico'}" 
+                                 value="#{sesionInfanteDE.listadoInfantes}" var="inf">
                         <p:column>
                             <f:facet name="header">
                                 <p:outputLabel value="Código"/>
@@ -170,7 +171,9 @@
                         </p:column>
                     </p:dataTable>
 
-                    <p:diagram id="diagrama" rendered="#{sesionInfanteDE.textoVista=='Tabla'}" value="#{sesionInfanteDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
+                    <p:diagram id="diagrama" rendered="#{sesionInfanteDE.textoVista=='Tabla'}"
+                               value="#{sesionInfanteDE.model}" style="height:600px; width: 100%;" 
+                               styleClass="ui-widget-content" />
 
                     <p:remoteCommand name="elementClickRight" 
                                      actionListener="#{sesionInfanteDE.onClickRight()}" 
@@ -233,14 +236,7 @@
                 </p:panel>
             </p:dialog>
 
-            <p:dialog id="posicionInfante" header="Ver posicion infante" widgetVar="dlgposiconInfante"
-                      modal="true" height="50">
-                <h:panelGroup id="panelPosicion">
-                    <p:outputLabel value="posicion #{sesionInfanteDE.posicionInfante}"/>
-
-                </h:panelGroup>    
-
-            </p:dialog>
+   
 
             <p:dialog id="gestionPosicionInfante" header="Adelantar/perder posicion infante" 
                       widgetVar="dlgGestionPosiconInfante"

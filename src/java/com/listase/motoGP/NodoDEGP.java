@@ -16,11 +16,14 @@ public class NodoDEGP implements Serializable {
     private Corredor dato;
     private NodoDEGP siguiente;
     private NodoDEGP anterior;
+    
 
      public NodoDEGP(Corredor dato) {
         this.dato = dato;
     }
 
+ 
+     
     public Corredor getDato() {
         return dato;
     }

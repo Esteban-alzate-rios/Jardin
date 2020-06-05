@@ -22,6 +22,7 @@ import java.util.List;
  * @author esteban
  */
 public class ListaDEGP implements Serializable {
+    
     private NodoDEGP cabeza;
     
     public ListaDEGP() {
@@ -92,16 +93,16 @@ public class ListaDEGP implements Serializable {
         }
     }
     
-    public String obtenerListadoCorredors()
+    public String obtenerListadoCorredor()
     {
         
         //Un método recursivo que recoora mis corredors y que sacando la
         // info la adicione een el string
         
-        return listarCorredors("");
+        return listarCorredor("");
     }
     
-    public String listarCorredors(String listado)
+    public String listarCorredor(String listado)
     {
         if(cabeza !=null)
         {
@@ -118,16 +119,37 @@ public class ListaDEGP implements Serializable {
     }
     
     
-     public List obtenerListaCorredors()
+     public List obtenerListaCorredor()
     {
         List<Corredor> listado = new ArrayList<>();
         //Un método recursivo que recoora mis corredors y que sacando la
         // info la adicione een el string
-        listarCorredors(listado);
+        listarCorredor(listado);
         return listado;
     }
+     
+      public Corredor obtenerGanador () throws MotoException
+    {
+        if(cabeza !=null)
+        {
+            Corredor tiempo = cabeza.getDato();
+            NodoDEGP temp = cabeza;
+            while(temp != null)
+            {
+                if(temp.getDato().getEdad()< tiempo.getTiempo())
+                {
+                    tiempo = temp.getDato();
+                }
+                temp = temp.getSiguiente();
+            }
+           return tiempo;
+            
+        }
+    throw new MotoException("La lista de corredores está vacía");
+
+    }
     
-    public void listarCorredors(List listado)
+    public void listarCorredor(List listado)
     {
         if(cabeza !=null)
         {
@@ -165,7 +187,7 @@ public class ListaDEGP implements Serializable {
         }
     }
     
-    public short contarCorredorsxGenero(boolean genero)
+    public short contarCorredorxGenero(boolean genero)
     {
         if(cabeza ==null)
         {
@@ -247,6 +269,82 @@ public class ListaDEGP implements Serializable {
         throw new MotoException("La lista de corredors está vacía");
     }
 
+  public int obtenerCorredorPosicion(short codigo ) throws MotoException
+    {
+        if (cabeza !=null)
+        {
+          int cont =1;  
+          NodoDEGP temp = cabeza;
+          while(temp !=null)
+          {
+                 if(temp.getDato().getCodigo()== codigo)
+                 {
+                     return cont;
+                 }
+                temp = temp.getSiguiente();
+                 cont++;
+          }
+          throw new MotoException("El codigo ingresado no exite");
+        }
+        throw new MotoException("La lista de infantes está vacía");
+    }
   
+   
+       public void adicionarNodoPosicion(int posicion, Corredor dato) throws MotoException
+   {
+       if (cabeza != null)
+       {
+         if(posicion ==1)
+         {
+             adicionarNodoPosicion(posicion, dato);
+             return;
+         }
+         else
+         {    
+           int cont =1;  
+          NodoDEGP temp = cabeza;
+          while(temp !=null)
+          {
+                    if ((posicion - 1) == cont) {
+                        NodoDEGP nodoInsertar = new NodoDEGP(dato);
+                        nodoInsertar.setSiguiente(temp.getSiguiente());
+                        temp.setSiguiente(nodoInsertar);
+                        if(nodoInsertar.getSiguiente()!=null)
+                            nodoInsertar.getSiguiente().setAnterior(nodoInsertar);
+                        nodoInsertar.setAnterior(temp);
+                    return;
+                 }
+                temp = temp.getSiguiente();
+                 cont++;
+          }
+       }
+       throw new MotoException(("La lista esta vacia "));
+   }
+       
+   }    
+
+ public void intercambiarCorredor(short codigo1, short codigo2) throws MotoException {
+        if (cabeza != null) {
+            NodoDEGP temp1 = cabeza;
+            NodoDEGP temp2 = cabeza;
+            Corredor datotemp = null;
+            while (temp1 != null) {
+                if (temp1.getDato().getCodigo()== codigo1) {
+                    datotemp = temp1.getDato();
+                    break;
+                }
+                temp1 = temp1.getSiguiente();
+            }
+            while (temp2 != null) {
+                if (temp2.getDato().getCodigo()== codigo2) {
+                    temp1.setDato(temp2.getDato());
+                    temp2.setDato(datotemp);
+                    return;
+                }
+                temp2 = temp2.getSiguiente();
+            }
+        }
+        throw new MotoException("La lista está vacía");
+    } 
 
 }
